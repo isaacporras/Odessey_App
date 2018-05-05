@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane prefHeight="298.0" prefWidth="429.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.RegistrarseController">
+   <children>
+      <Label layoutX="52.0" layoutY="52.0" prefHeight="44.0" prefWidth="366.0" text="Welcome to Odessey">
+         <font>
+            <Font size="35.0" />
+         </font>
+      </Label>
+      <Label layoutX="25.0" layoutY="125.0" prefHeight="24.0" prefWidth="123.0" text="Get Started!">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Label>
+      <Label layoutX="25.0" layoutY="179.0" text="Usuario:" />
+      <Label layoutX="25.0" layoutY="247.0" prefHeight="17.0" prefWidth="101.0" text="Contraseña:" />
+      <TextField layoutX="105.0" layoutY="174.0" />
+      <PasswordField layoutX="105.0" layoutY="242.0" />
+      <Button layoutX="285.0" layoutY="242.0" mnemonicParsing="false" text="Create Account" />
+      <Label layoutX="11.0" layoutY="14.0" prefHeight="20.0" prefWidth="43.0" text="Back" textFill="#5dc5f5" underline="true">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Button fx:id="BackButton" layoutX="3.0" layoutY="11.0" mnemonicParsing="false" onAction="#BackButton" opacity="0.0" prefHeight="27.0" prefWidth="51.0" text="Button" />
+   </children>
+</AnchorPane>
