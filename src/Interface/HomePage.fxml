@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.*?>
 
 
-<AnchorPane prefHeight="617.0" prefWidth="865.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.HomePageControler">
+<AnchorPane prefHeight="617.0" prefWidth="865.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Interface.HomePageControler">
    <children>
       <SplitPane dividerPositions="0.3544715447154472" layoutX="241.0" orientation="VERTICAL" prefHeight="617.0" prefWidth="625.0">
         <items>

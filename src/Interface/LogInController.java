@@ -1,4 +1,4 @@
-package sample;
+package Interface;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -8,7 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.event.ActionEvent;
 import javafx.stage.Stage;
-
+import SocketClient.OdesseyClient;
 import java.io.IOException;
 
 
@@ -22,6 +22,7 @@ public class LogInController {
     @FXML
     void LogInButton(ActionEvent event) throws IOException{
         System.out.println("SE CLICKEO");
+
         Parent home_page = FXMLLoader.load(getClass().getResource("HomePage.fxml"));
         Scene home_page_scene = new Scene(home_page);
         Stage app_stage = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -32,6 +33,7 @@ public class LogInController {
     }
     @FXML
     void getStartedButton(ActionEvent event) throws IOException{
+
         System.out.println("GET STARTED");
         Parent GetStarted_page = FXMLLoader.load(getClass().getResource("Registrarse_Window.fxml"));
         Scene GetStarted_scene = new Scene(GetStarted_page);

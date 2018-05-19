@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<GridPane alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.LogInController">
+<GridPane alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Interface.LogInController">
    <columnConstraints>
       <ColumnConstraints />
    </columnConstraints>
@@ -38,8 +38,8 @@
             </Label>
             <Label layoutX="15.0" layoutY="149.0" text="Usuario:" />
             <Label layoutX="14.0" layoutY="207.0" prefHeight="17.0" prefWidth="101.0" text="Contraseña:" />
-            <PasswordField layoutX="97.0" layoutY="202.0" />
-            <TextField layoutX="97.0" layoutY="144.0" />
+            <PasswordField id="PasswordInput_LOG" layoutX="97.0" layoutY="202.0" />
+            <TextField id="UserInput_LOG" layoutX="97.0" layoutY="144.0" />
             <Button fx:id="LogInButton" layoutX="252.0" layoutY="260.0" mnemonicParsing="false" onAction="#LogInButton" text="Listo!" />
             <Label layoutX="317.0" layoutY="325.0" text="Get Started!" textFill="#14b1ff" underline="true" />
             <Button fx:id="getStartedButton" layoutX="313.0" layoutY="320.0" mnemonicParsing="false" onAction="#getStartedButton" opacity="0.0" prefHeight="27.0" prefWidth="82.0" text="Button" />
