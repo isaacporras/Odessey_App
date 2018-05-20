@@ -35,6 +35,7 @@ public class LogInController {
     void getStartedButton(ActionEvent event) throws IOException{
 
         System.out.println("GET STARTED");
+
         Parent GetStarted_page = FXMLLoader.load(getClass().getResource("Registrarse_Window.fxml"));
         Scene GetStarted_scene = new Scene(GetStarted_page);
         Stage app_stage = (Stage)((Node)event.getSource()).getScene().getWindow();

@@ -7,8 +7,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-<AnchorPane prefHeight="298.0" prefWidth="429.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Interface.RegistrarseController">
+<AnchorPane prefHeight="467.0" prefWidth="529.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Interface.RegistrarseController">
    <children>
       <Label layoutX="52.0" layoutY="52.0" prefHeight="44.0" prefWidth="366.0" text="Welcome to Odessey">
          <font>
@@ -20,16 +19,24 @@
             <Font size="19.0" />
          </font>
       </Label>
-      <Label layoutX="25.0" layoutY="179.0" text="Usuario:" />
-      <Label layoutX="25.0" layoutY="247.0" prefHeight="17.0" prefWidth="101.0" text="Contraseña:" />
-      <TextField layoutX="105.0" layoutY="174.0" />
-      <PasswordField layoutX="105.0" layoutY="242.0" />
-      <Button layoutX="285.0" layoutY="242.0" mnemonicParsing="false" text="Create Account" />
+      <Label layoutX="14.0" layoutY="179.0" text="Nombre de Usuario:" />
+      <Label layoutX="16.0" layoutY="307.0" prefHeight="17.0" prefWidth="101.0" text="Contraseña:" />
+      <TextField fx:id="Username_TextField" layoutX="148.0" layoutY="174.0" />
+      <PasswordField fx:id="Password_TextFiel" layoutX="148.0" layoutY="302.0" />
+      <Button fx:id="CreateAccount_Button" layoutX="401.0" layoutY="419.0" mnemonicParsing="false" onAction="#CreateAccount_Button_Action" text="Create Account" />
       <Label layoutX="11.0" layoutY="14.0" prefHeight="20.0" prefWidth="43.0" text="Back" textFill="#5dc5f5" underline="true">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
       <Button fx:id="BackButton" layoutX="3.0" layoutY="11.0" mnemonicParsing="false" onAction="#BackButton" opacity="0.0" prefHeight="27.0" prefWidth="51.0" text="Button" />
+      <Label layoutX="14.0" layoutY="217.0" text="Nombre:" />
+      <TextField fx:id="Name_TextFiel" layoutX="148.0" layoutY="212.0" />
+      <Label layoutX="15.0" layoutY="260.0" prefHeight="17.0" prefWidth="51.0" text="Edad:" />
+      <TextField fx:id="Age_TextFiel" layoutX="148.0" layoutY="255.0" />
+      <Label layoutX="9.0" layoutY="353.0" text="Generos Favoritos:" />
+      <RadioButton fx:id="Rock_RadioButton" layoutX="117.0" layoutY="410.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="86.0" text="Rock" />
+      <RadioButton fx:id="Pop_RadioButton" layoutX="215.0" layoutY="410.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="60.0" text="Pop" />
+      <RadioButton fx:id="Reggae_RadioButton" layoutX="287.0" layoutY="410.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="86.0" text="Reggae" />
    </children>
 </AnchorPane>
