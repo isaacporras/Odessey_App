@@ -56,7 +56,7 @@ public class OdesseyClient  implements Runnable {
     }
 
     public void startClient() throws IOException {
-        Clientsocket = new Socket("localhost", 1654);
+        Clientsocket = new Socket("localhost", 1829);
     }
 
 
@@ -190,6 +190,3 @@ public class OdesseyClient  implements Runnable {
         return null;
     }
 }
-
-
-
