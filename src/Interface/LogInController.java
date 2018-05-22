@@ -29,23 +29,23 @@ public class LogInController {
     @FXML
     void LogInButton(ActionEvent event) throws IOException{
         System.out.println("SE CLICKEO");
-//        if(OdesseyClient.LogIn_Usuario(UserName_TextField.getText(),PassWord_TextField.getText())){
-//            Parent home_page = FXMLLoader.load(getClass().getResource("HomePage.fxml"));
-//            Scene home_page_scene = new Scene(home_page);
-//            Stage app_stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-//            app_stage.hide();
-//            app_stage.setScene(home_page_scene);
-//            app_stage.show();
-//        }
-//        else{
-//            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-//            alert.setTitle("Error!");
-//
-//
-//            alert.setContentText("El nombre de usuario ya esta en uso");
-//
-//            alert.showAndWait();
-//        }
+        if(OdesseyClient.LogIn_Usuario(UserName_TextField.getText(),PassWord_TextField.getText())){
+            Parent home_page = FXMLLoader.load(getClass().getResource("HomePage.fxml"));
+            Scene home_page_scene = new Scene(home_page);
+            Stage app_stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+            app_stage.hide();
+            app_stage.setScene(home_page_scene);
+            app_stage.show();
+        }
+        else{
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Error!");
+
+
+            alert.setContentText("La contraseña o el usuario es incorrecto. Si no esta registrado puede hacerlo en Get Started");
+
+            alert.showAndWait();
+        }
 
 
     }

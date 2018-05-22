@@ -40,42 +40,90 @@ public class OdesseyClient  implements Runnable {
         try {
             //Inicia el socket //
             startClient();
-            //Empieza a escuchar //
-//            StartListening();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-//        int  i = 0 ;
-//        while(true){
-//            System.out.println( i );
-//            i =  i + 1 ;
-//        }
-        // must run socket client stuff here //
 
     }
 
     public void startClient() throws IOException {
-        Clientsocket = new Socket("localhost", 1852);
+        Clientsocket = new Socket("localhost", 1859);
     }
 
+    public static boolean LogIn_Usuario(String username, String password) {
 
-//    public void StartListening() throws IOException {
-//        String sentence;
-//        String modifiedSentence;
-//        DataOutputStream outToServer;
-//        BufferedReader inFromUser;
-//        while (true) {
-//
-//
-//
-//            BufferedReader inFromServer = new BufferedReader(new InputStreamReader(Clientsocket.getInputStream()));
-//            modifiedSentence = inFromServer.readLine();
-//            System.out.println("FROM SERVER: " + modifiedSentence + '\n');
-//
-//        }
-//    }
+        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder dBuilder = null;
+        //
+        try {
+            dBuilder = dbFactory.newDocumentBuilder();
+        } catch (ParserConfigurationException e) {
+            System.out.println("NO SE CREO EL DOCUMENTO");
+            e.printStackTrace();
+        }
+        //Instancia el documento
+        Document Log_In_doc = dBuilder.newDocument();
+        //
+        //Crea el elemento principal del XML
+        Element operation = Log_In_doc.createElement("OperationCode");
+        Log_In_doc.appendChild(operation);
+        //
+        //Le anade un atributo al operation code(1-> registrarse)//
+        Attr attr = Log_In_doc.createAttribute("ID");
+        attr.setValue("2");
+        operation.setAttributeNode(attr);
+        //Anade el username al xml//
+        Element usernameXML = Log_In_doc.createElement("UserName");
+        operation.appendChild(usernameXML);
+        usernameXML.appendChild(Log_In_doc.createTextNode(username));
+        //Anade el username al password//
+        Element passwordXML = Log_In_doc.createElement("Password");
+        operation.appendChild(passwordXML);
+        passwordXML.appendChild(Log_In_doc.createTextNode(password));
 
+        //Manda el XML con la informacion de registro al servidor //
+        try {
+            DataOutputStream outToServer = new DataOutputStream(Clientsocket.getOutputStream());
+            outToServer.writeBytes(convertDocumentToString(Log_In_doc) + '\n');
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        //Termina de mandarlo al servidor
+
+
+        //Espera la respuesta del servidor a ver si el usuario ya esta registrado //
+
+        String modifiedSentence = null;
+
+
+        try {
+            BufferedReader inFromServer = new BufferedReader(new InputStreamReader(Clientsocket.getInputStream()));
+
+            modifiedSentence = inFromServer.readLine();
+            System.out.println("Respuesta de si esta logeado: " + modifiedSentence);
+
+            String se_encontro = modifiedSentence;
+
+            //Si se encontro se sale y no cambia a la pantalla main//
+
+            if (se_encontro.equals("true")) {
+                System.out.println("Puede continuar");
+
+                return true;
+            } else if (se_encontro.equals("false")) {
+                System.out.println("No puede continuar");
+
+                return false;
+            }
+            return false;
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
     /**
      * Registra el usuario en el servidor y regresa un true o false si el usario esta o no registrado.
      * @param username Nombre de usuario
@@ -164,32 +212,33 @@ public class OdesseyClient  implements Runnable {
         String modifiedSentence = null;
 
 
-            try {
-                BufferedReader inFromServer = new BufferedReader(new InputStreamReader(Clientsocket.getInputStream()));
+        try {
+            BufferedReader inFromServer = new BufferedReader(new InputStreamReader(Clientsocket.getInputStream()));
 
-                modifiedSentence = inFromServer.readLine();
-                System.out.println("Respuesta de buscado: " + modifiedSentence);
+            modifiedSentence = inFromServer.readLine();
+            System.out.println("Respuesta de buscado: " + modifiedSentence);
 
 
-                String se_encontro = modifiedSentence;
+            String se_encontro = modifiedSentence;
 
-                //Si se encontro se sale y no cambia a la pantalla main//
+            //Si se encontro se sale y no cambia a la pantalla main//
 
-                if(se_encontro.equals("true")){
-                    System.out.println("Puede continuar");
-                    return false;
-                }
-                else if(se_encontro.equals("false")){
-                    System.out.println("No puede continuar");
-                    return true;
-                }
+            if(se_encontro.equals("true")){
+                System.out.println("No puede continuar");
+
                 return false;
-
-
-
-            } catch (IOException e) {
-                e.printStackTrace();
             }
+            else if(se_encontro.equals("false")){
+                System.out.println("Puede continuar");
+                return true;
+            }
+            return false;
+
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
 
 //        **************//
@@ -228,4 +277,5 @@ public class OdesseyClient  implements Runnable {
         }
         return null;
     }
+
 }
