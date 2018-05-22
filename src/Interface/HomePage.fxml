@@ -40,12 +40,8 @@
                </children></AnchorPane>
         </items>
       </SplitPane>
-      <AnchorPane prefHeight="575.0" prefWidth="239.0">
-         <children>
-            <Button layoutY="1.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="239.0" text="LogOut" />
-            <TextField layoutY="28.0" prefHeight="29.0" prefWidth="166.0" />
-            <Button layoutX="166.0" layoutY="28.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="70.0" text="Search" />
-         </children>
-      </AnchorPane>
+      <Button fx:id="LogOut_Button" layoutY="1.0" mnemonicParsing="false" onAction="#LogOut" prefHeight="27.0" prefWidth="237.0" text="LogOut" />
+      <Button layoutX="178.0" layoutY="28.0" mnemonicParsing="false" text="Search" />
+      <TextField layoutX="2.0" layoutY="28.0" prefHeight="27.0" prefWidth="179.0" />
    </children>
 </AnchorPane>
