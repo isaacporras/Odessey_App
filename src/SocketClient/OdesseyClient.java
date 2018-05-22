@@ -41,7 +41,7 @@ public class OdesseyClient  implements Runnable {
             //Inicia el socket //
             startClient();
             //Empieza a escuchar //
-            StartListening();
+//            StartListening();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -56,40 +56,38 @@ public class OdesseyClient  implements Runnable {
     }
 
     public void startClient() throws IOException {
-        Clientsocket = new Socket("localhost", 1829);
+        Clientsocket = new Socket("localhost", 1852);
     }
 
 
-    public void StartListening() throws IOException {
-        String sentence;
-        String modifiedSentence;
-        DataOutputStream outToServer;
-        BufferedReader inFromUser;
-        while (true) {
+//    public void StartListening() throws IOException {
+//        String sentence;
+//        String modifiedSentence;
+//        DataOutputStream outToServer;
+//        BufferedReader inFromUser;
+//        while (true) {
+//
+//
+//
+//            BufferedReader inFromServer = new BufferedReader(new InputStreamReader(Clientsocket.getInputStream()));
+//            modifiedSentence = inFromServer.readLine();
+//            System.out.println("FROM SERVER: " + modifiedSentence + '\n');
+//
+//        }
+//    }
 
-            System.out.println("Nombre de la Cancion:");
-
-
-            inFromUser = new BufferedReader(new InputStreamReader(System.in));
-            outToServer = new DataOutputStream(Clientsocket.getOutputStream());
-
-            if (inFromUser.toString().equals("Close")) {
-                Clientsocket.close();
-                return;
-            }
-
-            sentence = inFromUser.readLine();
-            outToServer.writeBytes(sentence + '\n');
-
-
-            BufferedReader inFromServer = new BufferedReader(new InputStreamReader(Clientsocket.getInputStream()));
-            modifiedSentence = inFromServer.readLine();
-            System.out.println("FROM SERVER: " + modifiedSentence);
-
-        }
-    }
-
-    public static void Registrar_Usario(String username, String name, String age, String password, boolean rock_selected, boolean pop_selected, boolean reggae_selected) {
+    /**
+     * Registra el usuario en el servidor y regresa un true o false si el usario esta o no registrado.
+     * @param username Nombre de usuario
+     * @param name Nombre
+     * @param age Edad
+     * @param password contraseña
+     * @param rock_selected Genero favorito rock
+     * @param pop_selected Genero favorito pop
+     * @param reggae_selected Genero favorito reggae
+     * @return Regresa true si puede continuar y false si no puede.
+     */
+    public static boolean Registrar_Usario(String username, String name, String age, String password, boolean rock_selected, boolean pop_selected, boolean reggae_selected) {
         //Crea el XML para registrar con el operation code respectivo (1)//
 
         //Crea el documento XML//
@@ -158,6 +156,47 @@ public class OdesseyClient  implements Runnable {
 
 
 
+
+
+
+        //Espera la respuesta del servidor a ver si el usuario ya esta registrado //
+
+        String modifiedSentence = null;
+
+
+            try {
+                BufferedReader inFromServer = new BufferedReader(new InputStreamReader(Clientsocket.getInputStream()));
+
+                modifiedSentence = inFromServer.readLine();
+                System.out.println("Respuesta de buscado: " + modifiedSentence);
+
+
+                String se_encontro = modifiedSentence;
+
+                //Si se encontro se sale y no cambia a la pantalla main//
+
+                if(se_encontro.equals("true")){
+                    System.out.println("Puede continuar");
+                    return false;
+                }
+                else if(se_encontro.equals("false")){
+                    System.out.println("No puede continuar");
+                    return true;
+                }
+                return false;
+
+
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+//        **************//
+
+
+
+        return false;
     }
     private static String convertDocumentToString(Document doc) {
         TransformerFactory tf = TransformerFactory.newInstance();
