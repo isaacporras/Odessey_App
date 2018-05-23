@@ -49,7 +49,7 @@ public class OdesseyClient  implements Runnable {
     }
 
     public void startClient() throws IOException {
-        Clientsocket = new Socket("localhost", 1860);
+        Clientsocket = new Socket("localhost", 1361);
     }
 
     public static boolean LogIn_Usuario(String username, String password) {
