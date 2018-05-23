@@ -8,7 +8,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="575.0" prefWidth="766.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Interface.HomePage">
+<AnchorPane fx:id="MainWindow_AnchorPane" prefHeight="575.0" prefWidth="766.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Interface.HomePage">
    <children>
       <SplitPane dividerPositions="0.343804537521815" layoutX="237.0" orientation="VERTICAL" prefHeight="575.0" prefWidth="528.0">
         <items>
@@ -20,14 +20,12 @@
                         <Font size="39.0" />
                      </font>
                   </Label>
-                  <Label layoutX="309.0" layoutY="18.0" text="Upload Song:">
+                  <Label layoutX="247.0" layoutY="17.0" text="Upload Song:">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Label>
-                  <Label layoutX="247.0" layoutY="57.0" text="Direccion:" />
-                  <TextField layoutX="232.0" layoutY="83.0" prefHeight="27.0" prefWidth="228.0" />
-                  <Button layoutX="460.0" layoutY="83.0" mnemonicParsing="false" text="Upload" />
+                  <Button fx:id="Upload_Button" layoutX="353.0" layoutY="13.0" mnemonicParsing="false" onAction="#Upload_Button_Clicked" text="Upload" />
                </children></AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="47.0" prefWidth="526.0">
                <children>

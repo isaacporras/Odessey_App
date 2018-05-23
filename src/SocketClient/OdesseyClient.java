@@ -49,7 +49,7 @@ public class OdesseyClient  implements Runnable {
     }
 
     public void startClient() throws IOException {
-        Clientsocket = new Socket("localhost", 1361);
+        Clientsocket = new Socket("localhost", 1366);
     }
 
     public static boolean LogIn_Usuario(String username, String password) {
@@ -95,13 +95,13 @@ public class OdesseyClient  implements Runnable {
 
         //Espera la respuesta del servidor a ver si el usuario ya esta registrado //
 
-        String modifiedSentence = null;
+
 
 
         try {
             BufferedReader inFromServer = new BufferedReader(new InputStreamReader(Clientsocket.getInputStream()));
 
-            modifiedSentence = inFromServer.readLine();
+            String modifiedSentence = inFromServer.readLine();
             System.out.println("Respuesta de si esta logeado: " + modifiedSentence);
 
             String se_encontro = modifiedSentence;
@@ -246,6 +246,18 @@ public class OdesseyClient  implements Runnable {
 
 
         return false;
+    }
+    public static void Send_Song_to_Server(String XML){
+        //Manda el XML con la informacion de la cancion al servidor //
+        try {
+            DataOutputStream outToServer = new DataOutputStream(Clientsocket.getOutputStream());
+            outToServer.writeBytes(XML + '\n');
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        //Termina de mandarlo al servidor
+
     }
     private static String convertDocumentToString(Document doc) {
         TransformerFactory tf = TransformerFactory.newInstance();

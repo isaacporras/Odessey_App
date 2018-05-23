@@ -9,13 +9,38 @@ import javafx.scene.control.Button;
 
 
 import javafx.event.ActionEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 
 public class HomePage {
     @FXML
+    private AnchorPane MainWindow_AnchorPane;
+    @FXML
+    private Button Upload_Button;
+
+    @FXML
     private Button LogOut_Button;
+
+    @FXML
+    void Upload_Button_Clicked(ActionEvent event) {
+
+        Parent GetStarted_page = null;
+        try {
+            GetStarted_page = FXMLLoader.load(getClass().getResource("Upload_Song.fxml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Scene GetStarted_scene = new Scene(GetStarted_page);
+        Stage stage = new Stage();
+
+        stage.setScene(GetStarted_scene);
+        stage.show();
+    }
 
     @FXML
     void LogOut(ActionEvent event) {

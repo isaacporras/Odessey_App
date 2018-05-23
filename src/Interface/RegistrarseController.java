@@ -43,31 +43,44 @@ public class RegistrarseController {
     @FXML
     void CreateAccount_Button_Action(ActionEvent event) {
         //Si se logro registrar entonces abra la ventana de loggearse //
-        if (OdesseyClient.Registrar_Usario(Username_TextField.getText(),Name_TextFiel.getText(),Age_TextFiel.getText(),Password_TextFiel.getText()
-        ,Rock_RadioButton.isSelected(),Pop_RadioButton.isSelected(),Reggae_RadioButton.isSelected())){
+        if(!Username_TextField.getText().equals("") && !Name_TextFiel.getText().equals("") && !Age_TextFiel.getText().equals("") && !
+                Password_TextFiel.getText().equals("") && (Rock_RadioButton.isSelected() || Pop_RadioButton.isSelected() ||
+                Reggae_RadioButton.isSelected())){
+            if (OdesseyClient.Registrar_Usario(Username_TextField.getText(),Name_TextFiel.getText(),Age_TextFiel.getText(),Password_TextFiel.getText()
+                    ,Rock_RadioButton.isSelected(),Pop_RadioButton.isSelected(),Reggae_RadioButton.isSelected())){
 
 
-            Parent LogIn_page = null;
-            try {
-                LogIn_page = FXMLLoader.load(getClass().getResource("LogIn.fxml"));
-            } catch (IOException e) {
-                e.printStackTrace();
+                Parent LogIn_page = null;
+                try {
+                    LogIn_page = FXMLLoader.load(getClass().getResource("LogIn.fxml"));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                Scene LogIn_scene = new Scene(LogIn_page);
+                Stage app_stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+                app_stage.hide();
+                app_stage.setScene(LogIn_scene);
+                app_stage.show();
             }
-            Scene LogIn_scene = new Scene(LogIn_page);
-            Stage app_stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-            app_stage.hide();
-            app_stage.setScene(LogIn_scene);
-            app_stage.show();
-        }
-        else{
+            else{
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Error!");
+
+
+                alert.setContentText("El nombre de usuario ya esta en uso");
+
+                alert.showAndWait();
+            }
+        }else{
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Error!");
 
 
-            alert.setContentText("El nombre de usuario ya esta en uso");
+            alert.setContentText("Por favor rellene todos los campos solicitados");
 
             alert.showAndWait();
         }
+
     }
 
     @FXML
