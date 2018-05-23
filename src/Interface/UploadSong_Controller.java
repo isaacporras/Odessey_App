@@ -89,7 +89,9 @@ public class UploadSong_Controller {
     void Upload_Song_Click(ActionEvent event) {
         if(!Genero_TextField.getText().equals("")&& !Artista_TextField.getText().equals("")&& !Album_TextField.getText().equals("")&&
                 !Year_TextField.getText().equals("")&& !Lyrics_TextField.getText().equals("")&& !Path_TextField.getText().equals("")){
+
             String xml = Generate_Song_XML();
+
             OdesseyClient.Send_Song_to_Server(xml);
 
         }
@@ -127,6 +129,10 @@ public class UploadSong_Controller {
         operation.setAttributeNode(attr);
 
         //Anade la cancion en bytes al xml//
+
+        //
+//        String cancion =  converPathBytes(Path_TextField.getText());
+        //
         Element SongBytes = Registrarse_doc.createElement("CancionBytes");
         operation.appendChild(SongBytes);
         //*************************** ACA SE DEBE METER LOS BYTES DE LA CANCION *******************************//
@@ -146,7 +152,7 @@ public class UploadSong_Controller {
         //Anade el Year musical favorito //
         Element Year = Registrarse_doc.createElement("Year");
         operation.appendChild(Year);
-        Year.appendChild(Registrarse_doc.createTextNode(Album_TextField.getText()));
+        Year.appendChild(Registrarse_doc.createTextNode(Year_TextField.getText()));
         //Anade el Letra musical favorito //
         Element Letra = Registrarse_doc.createElement("Letra");
         operation.appendChild(Letra);

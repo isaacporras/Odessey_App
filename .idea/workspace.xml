@@ -2,15 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Interface/UploadSong_Controller.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Interface/Upload_Song.fxml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Odyssey/Interface/HomePage.class" afterPath="$PROJECT_DIR$/out/production/Odyssey/Interface/HomePage.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Odyssey/SocketClient/OdesseyClient.class" afterPath="$PROJECT_DIR$/out/production/Odyssey/SocketClient/OdesseyClient.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Odyssey/Interface/HomePage.fxml" afterPath="$PROJECT_DIR$/out/production/Odyssey/Interface/HomePage.fxml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Interface/HomePage.fxml" afterPath="$PROJECT_DIR$/src/Interface/HomePage.fxml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Interface/HomePage.java" afterPath="$PROJECT_DIR$/src/Interface/HomePage.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Interface/RegistrarseController.java" afterPath="$PROJECT_DIR$/src/Interface/RegistrarseController.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Interface/UploadSong_Controller.java" afterPath="$PROJECT_DIR$/src/Interface/UploadSong_Controller.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/SocketClient/OdesseyClient.java" afterPath="$PROJECT_DIR$/src/SocketClient/OdesseyClient.java" />
     </list>
     <ignored path="JavaFxApplication.iws" />
@@ -84,7 +76,7 @@
       <file leaf-file-name="OdesseyClient.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/SocketClient/OdesseyClient.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="127">
+            <state relative-caret-position="319">
               <caret line="51" column="51" lean-forward="false" selection-start-line="51" selection-start-column="51" selection-end-line="51" selection-end-column="51" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -157,8 +149,8 @@
       <file leaf-file-name="UploadSong_Controller.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Interface/UploadSong_Controller.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="277">
-              <caret line="92" column="51" lean-forward="false" selection-start-line="92" selection-start-column="51" selection-end-line="92" selection-end-column="51" />
+            <state relative-caret-position="319">
+              <caret line="154" column="83" lean-forward="true" selection-start-line="154" selection-start-column="83" selection-end-line="154" selection-end-column="83" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -233,8 +225,8 @@
         <option value="$PROJECT_DIR$/src/Interface/HomePage.fxml" />
         <option value="$PROJECT_DIR$/src/Interface/Upload_Song.fxml" />
         <option value="$PROJECT_DIR$/src/Interface/HomePage.java" />
-        <option value="$PROJECT_DIR$/src/Interface/UploadSong_Controller.java" />
         <option value="$PROJECT_DIR$/src/Interface/RegistrarseController.java" />
+        <option value="$PROJECT_DIR$/src/Interface/UploadSong_Controller.java" />
         <option value="$PROJECT_DIR$/src/SocketClient/OdesseyClient.java" />
       </list>
     </option>
@@ -945,16 +937,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Interface/UploadSong_Controller.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="277">
-          <caret line="92" column="51" lean-forward="false" selection-start-line="92" selection-start-column="51" selection-end-line="92" selection-end-column="51" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Interface/Registrarse_Window.fxml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="135">
@@ -978,9 +960,19 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/Interface/UploadSong_Controller.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="319">
+          <caret line="154" column="83" lean-forward="true" selection-start-line="154" selection-start-column="83" selection-end-line="154" selection-end-column="83" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/SocketClient/OdesseyClient.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="127">
+        <state relative-caret-position="319">
           <caret line="51" column="51" lean-forward="false" selection-start-line="51" selection-start-column="51" selection-end-line="51" selection-end-column="51" />
           <folding>
             <element signature="imports" expanded="true" />
