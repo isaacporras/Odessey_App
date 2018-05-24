@@ -11,6 +11,8 @@ import org.xml.sax.*;
 import javax.xml.parsers.*;
 import javax.xml.xpath.*;
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.Transformer;
@@ -43,20 +45,19 @@ public class OdesseyClient  implements Runnable {
             startClient();
             //Espera la respuesta del servidor a ver si el usuario ya esta registrado //
 
-            String modifiedSentence = null;
-            boolean allPlaylistCharged = true;
-            while(true){
-                BufferedReader inFromServer = new BufferedReader(new InputStreamReader(Clientsocket.getInputStream()));
-                modifiedSentence = inFromServer.readLine();
-                System.out.println("Playlist: " + modifiedSentence);
-                if(modifiedSentence.equals("No_more_Playlist")){
-                    System.out.println("Ya no hay mas playlist");
-                    return;
-                }
-                else{
-//                    HomePage.addTreeItem(modifiedSentence);
-                }
-            }
+//            String modifiedSentence = null;
+//            boolean allPlaylistCharged = true;
+//            while (true) {
+//                BufferedReader inFromServer = new BufferedReader(new InputStreamReader(Clientsocket.getInputStream()));
+//                modifiedSentence = inFromServer.readLine();
+//                System.out.println("Playlist: " + modifiedSentence);
+//                if (modifiedSentence.equals("finished")) {
+//                    System.out.println("Ya no hay mas playlist");
+//                    return;
+//                } else {
+////                    HomePage.addTreeItem(modifiedSentence);
+//                }
+//            }
 
 //        **************//
 
@@ -69,14 +70,15 @@ public class OdesseyClient  implements Runnable {
     }
 
     public void startClient() throws IOException {
-        Clientsocket = new Socket("localhost", 1396);
+        Clientsocket = new Socket("localhost", 1405);
     }
 
     /**
      * Crea un nuevo playlist (carpeta en el servidor)
+     *
      * @param playlistName nombre del playlist
      */
-    public static void AddPlaylist(String playlistName){
+    public static void AddPlaylist(String playlistName) {
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder dBuilder = null;
 
@@ -159,8 +161,6 @@ public class OdesseyClient  implements Runnable {
         //Espera la respuesta del servidor a ver si el usuario ya esta registrado //
 
 
-
-
         try {
             BufferedReader inFromServer = new BufferedReader(new InputStreamReader(Clientsocket.getInputStream()));
 
@@ -187,14 +187,16 @@ public class OdesseyClient  implements Runnable {
         }
         return false;
     }
+
     /**
      * Registra el usuario en el servidor y regresa un true o false si el usario esta o no registrado.
-     * @param username Nombre de usuario
-     * @param name Nombre
-     * @param age Edad
-     * @param password contraseña
-     * @param rock_selected Genero favorito rock
-     * @param pop_selected Genero favorito pop
+     *
+     * @param username        Nombre de usuario
+     * @param name            Nombre
+     * @param age             Edad
+     * @param password        contraseña
+     * @param rock_selected   Genero favorito rock
+     * @param pop_selected    Genero favorito pop
      * @param reggae_selected Genero favorito reggae
      * @return Regresa true si puede continuar y false si no puede.
      */
@@ -241,19 +243,13 @@ public class OdesseyClient  implements Runnable {
         //Anade el genero musical favorito
         Element GeneroFavXML = Registrarse_doc.createElement("GeneroFavorito");
         operation.appendChild(GeneroFavXML);
-        if(rock_selected){
+        if (rock_selected) {
             GeneroFavXML.appendChild(Registrarse_doc.createTextNode("Rock"));
-        }
-        else if(pop_selected){
+        } else if (pop_selected) {
             GeneroFavXML.appendChild(Registrarse_doc.createTextNode("Pop"));
-        }
-        else if(reggae_selected){
+        } else if (reggae_selected) {
             GeneroFavXML.appendChild(Registrarse_doc.createTextNode("Reggae"));
         }
-
-
-
-
 
 
         //Manda el XML con la informacion de registro al servidor //
@@ -264,10 +260,6 @@ public class OdesseyClient  implements Runnable {
             e.printStackTrace();
         }
         //Termina de mandarlo al servidor
-
-
-
-
 
 
         //Espera la respuesta del servidor a ver si el usuario ya esta registrado //
@@ -286,17 +278,15 @@ public class OdesseyClient  implements Runnable {
 
             //Si se encontro se sale y no cambia a la pantalla main//
 
-            if(se_encontro.equals("true")){
+            if (se_encontro.equals("true")) {
                 System.out.println("No puede continuar");
 
                 return false;
-            }
-            else if(se_encontro.equals("false")){
+            } else if (se_encontro.equals("false")) {
                 System.out.println("Puede continuar");
                 return true;
             }
             return false;
-
 
 
         } catch (IOException e) {
@@ -307,10 +297,10 @@ public class OdesseyClient  implements Runnable {
 //        **************//
 
 
-
         return false;
     }
-    public static void Send_Song_to_Server(String XML){
+
+    public static void Send_Song_to_Server(String XML) {
         //Manda el XML con la informacion de la cancion al servidor //
         try {
             DataOutputStream outToServer = new DataOutputStream(Clientsocket.getOutputStream());
@@ -322,6 +312,7 @@ public class OdesseyClient  implements Runnable {
         //Termina de mandarlo al servidor
 
     }
+
     private static String convertDocumentToString(Document doc) {
         TransformerFactory tf = TransformerFactory.newInstance();
         Transformer transformer;
@@ -339,18 +330,111 @@ public class OdesseyClient  implements Runnable {
 
         return null;
     }
+
     private static Document convertStringToDocument(String xmlStr) {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder;
-        try
-        {
+        try {
             builder = factory.newDocumentBuilder();
-            Document doc = builder.parse( new InputSource( new StringReader( xmlStr ) ) );
+            Document doc = builder.parse(new InputSource(new StringReader(xmlStr)));
             return doc;
         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
     }
+
+    public static List<String> getPlaylist() {
+
+        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder dBuilder = null;
+        //
+        try {
+            dBuilder = dbFactory.newDocumentBuilder();
+        } catch (ParserConfigurationException e) {
+            System.out.println("NO SE CREO EL DOCUMENTO");
+            e.printStackTrace();
+        }
+        //Instancia el documento
+        Document PLaylisXML_DOC = dBuilder.newDocument();
+        //
+
+        //Crea el elemento principal del XML
+        Element operation = PLaylisXML_DOC.createElement("OperationCode");
+        PLaylisXML_DOC.appendChild(operation);
+        //
+        //Le anade un atributo al operation code(1-> registrarse)//
+        Attr attr = PLaylisXML_DOC.createAttribute("ID");
+        attr.setValue("5");
+        operation.setAttributeNode(attr);
+        //Manda el XML con la informacion de registro al servidor //
+        try {
+            DataOutputStream outToServer = new DataOutputStream(Clientsocket.getOutputStream());
+            outToServer.writeBytes(convertDocumentToString(PLaylisXML_DOC) + '\n');
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        //Termina de mandarlo al servidor
+
+        //Espera la respuesta de las playlist //
+
+
+
+        List<String> playlistNames = new ArrayList<String>();
+
+
+        boolean allPlaylistCharged = true;
+
+        while(allPlaylistCharged) {
+
+            try {
+                //Inicia el socket //
+
+                //Espera la respuesta del servidor a ver si el usuario ya esta registrado //
+
+                String modifiedSentence = null;
+                allPlaylistCharged = true;
+                while(true){
+                    BufferedReader inFromServer = new BufferedReader(new InputStreamReader(Clientsocket.getInputStream()));
+                    modifiedSentence = inFromServer.readLine();
+                    System.out.println("Playlist: " + modifiedSentence);
+                    if(!modifiedSentence.equals("finished")&& !modifiedSentence.equals("..")){
+                        playlistNames.add(modifiedSentence);
+
+
+                    }
+                    else if(modifiedSentence.equals("finished")){
+                        System.out.println("Ya no hay mas playlist");
+                        return playlistNames;
+                    }
+//                    else{
+////                    HomePage.addTreeItem(modifiedSentence);
+//                    }
+                }
+
+//        **************//
+
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+//            if (modifiedSentence.equals("finished")) {
+//                System.out.println("Ya no hay mas playlist");
+//                return playlistNames;
+//
+//            }
+//            else {
+////                if(!modifiedSentence.equals( ".."))
+//
+//                playlistNames.add(modifiedSentence);
+//                System.out.println("inserto en el array");
+//
+//            }
+        }
+
+//        ******************************** //
+        return playlistNames;
+
+}
 
 }

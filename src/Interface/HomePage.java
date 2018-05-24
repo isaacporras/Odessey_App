@@ -23,10 +23,12 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class HomePage {
     public static String playlist_selected = "";
-    public static String playlist_To_Charge = "";
+
 
     @FXML
     private TextField PlayList_Name_TextField;
@@ -51,6 +53,12 @@ public class HomePage {
         Playlist_TreeView.setRoot(root);
         Playlist_TreeView.setShowRoot(false);
         root.setExpanded(true);
+        List<String> playlistNames = OdesseyClient.getPlaylist();
+        for (int i=0;i < playlistNames.size();i++)
+        {
+            TreeItem<String> item = new TreeItem<>(playlistNames.get(i));
+            Playlist_TreeView.getRoot().getChildren().addAll(item);
+        }
 
     }
     @FXML
@@ -118,16 +126,9 @@ public class HomePage {
                 Playlist_TreeView.setContextMenu(rootContextMenu);
             }
         }
+    }
 
 
-    }
-    public static void setPlaylist_To_Charge(String playlistname){
-        playlist_To_Charge = playlistname;
-
-    }
-    public void addTreeItem(){
-//        Playlist_TreeView.;
-    }
 
     @FXML
     void LogOut(ActionEvent event) {
