@@ -49,7 +49,50 @@ public class OdesseyClient  implements Runnable {
     }
 
     public void startClient() throws IOException {
-        Clientsocket = new Socket("localhost", 1369);
+        Clientsocket = new Socket("localhost", 1380);
+    }
+
+    /**
+     * Crea un nuevo playlist (carpeta en el servidor)
+     * @param playlistName nombre del playlist
+     */
+    public static void AddPlaylist(String playlistName){
+        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder dBuilder = null;
+
+        try {
+            dBuilder = dbFactory.newDocumentBuilder();
+        } catch (ParserConfigurationException e) {
+            System.out.println("NO SE CREO EL DOCUMENTO");
+            e.printStackTrace();
+        }
+        //Instancia el documento
+        Document NewPlaylist = dBuilder.newDocument();
+        //
+        //Crea el elemento principal del XML
+        Element operation = NewPlaylist.createElement("OperationCode");
+        NewPlaylist.appendChild(operation);
+        //
+        //Le anade un atributo al operation code(1-> registrarse)//
+        Attr attr = NewPlaylist.createAttribute("ID");
+        attr.setValue("4");
+        operation.setAttributeNode(attr);
+        //Anade el playlistname al xml//
+        Element playlistnameElement = NewPlaylist.createElement("PlayList");
+        playlistnameElement.appendChild(NewPlaylist.createTextNode(playlistName));
+        operation.appendChild(playlistnameElement);
+
+        //Manda el XML con la informacion de registro al servidor //
+        try {
+            DataOutputStream outToServer = new DataOutputStream(Clientsocket.getOutputStream());
+            outToServer.writeBytes(convertDocumentToString(NewPlaylist) + '\n');
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        //Termina de mandarlo al servidor
+
+
     }
 
     public static boolean LogIn_Usuario(String username, String password) {

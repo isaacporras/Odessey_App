@@ -25,11 +25,14 @@ import javax.xml.transform.stream.StreamResult;
 import java.io.File;
 import java.io.StringWriter;
 import SocketClient.OdesseyClient;
+import Interface.HomePage;
 
 
 public class UploadSong_Controller {
+    public String target_Playlist = "";
 
-
+    @FXML
+    private TextField Nombre_TextField;
     @FXML
     private TextField Album_TextField;
 
@@ -60,6 +63,7 @@ public class UploadSong_Controller {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Buscar Imagen");
 
+
 //        // Agregar filtros para facilitar la busqueda
 //        fileChooser.getExtensionFilters().addAll(
 //                new FileChooser.ExtensionFilter("MP3", "*.mp3")
@@ -87,9 +91,12 @@ public class UploadSong_Controller {
 
     @FXML
     void Upload_Song_Click(ActionEvent event) {
+
         if(!Genero_TextField.getText().equals("")&& !Artista_TextField.getText().equals("")&& !Album_TextField.getText().equals("")&&
                 !Year_TextField.getText().equals("")&& !Lyrics_TextField.getText().equals("")&& !Path_TextField.getText().equals("")){
 
+            target_Playlist = HomePage.playlist_selected ;
+            HomePage.playlist_selected = "";
             String xml = Generate_Song_XML();
 
             OdesseyClient.Send_Song_to_Server(xml);
@@ -137,6 +144,10 @@ public class UploadSong_Controller {
         operation.appendChild(SongBytes);
         //*************************** ACA SE DEBE METER LOS BYTES DE LA CANCION *******************************//
         SongBytes.appendChild(Registrarse_doc.createTextNode("ACA DEBE IR LA CANCION EN BASE 64"));
+        //Anade el Nombre de la cancion al xml//
+        Element Nombre = Registrarse_doc.createElement("Genero");
+        operation.appendChild(Nombre);
+        Nombre.appendChild(Registrarse_doc.createTextNode(Nombre_TextField.getText()));
         //Anade el Generp al xml//
         Element Genero = Registrarse_doc.createElement("Genero");
         operation.appendChild(Genero);
@@ -157,6 +168,10 @@ public class UploadSong_Controller {
         Element Letra = Registrarse_doc.createElement("Letra");
         operation.appendChild(Letra);
         Letra.appendChild(Registrarse_doc.createTextNode(Lyrics_TextField.getText()));
+        //Anade el playlist al cual anadir la cancion //
+        Element PlaylistElement = Registrarse_doc.createElement("Playlist");
+        operation.appendChild(PlaylistElement);
+        PlaylistElement.appendChild(Registrarse_doc.createTextNode(target_Playlist));
 
         //*********************** TERMINA EL DOCUMENTO ******************************************* //
         String xml = convertDocumentToString(Registrarse_doc);

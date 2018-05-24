@@ -7,26 +7,28 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane fx:id="UploadSong_AnchorPane" prefHeight="562.0" prefWidth="441.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Interface.UploadSong_Controller">
+<AnchorPane fx:id="UploadSong_AnchorPane" prefHeight="628.0" prefWidth="441.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Interface.UploadSong_Controller">
    <children>
       <Label layoutX="14.0" layoutY="14.0" text="Song Information:">
          <font>
             <Font size="26.0" />
          </font>
       </Label>
-      <Label layoutX="14.0" layoutY="126.0" prefHeight="17.0" prefWidth="54.0" text="Genero:" />
-      <Label layoutX="14.0" layoutY="162.0" prefHeight="17.0" prefWidth="54.0" text="Artista:" />
-      <Label layoutX="14.0" layoutY="200.0" text="Album:" />
-      <Label layoutX="14.0" layoutY="240.0" text="Año:" />
-      <Label layoutX="18.0" layoutY="282.0" text="Letra:" />
+      <Label layoutX="16.0" layoutY="162.0" prefHeight="17.0" prefWidth="54.0" text="Genero:" />
+      <Label layoutX="16.0" layoutY="207.0" prefHeight="17.0" prefWidth="54.0" text="Artista:" />
+      <Label layoutX="21.0" layoutY="256.0" text="Album:" />
+      <Label layoutX="28.0" layoutY="305.0" text="Año:" />
+      <Label layoutX="24.0" layoutY="345.0" text="Letra:" />
       <Label layoutX="23.0" layoutY="52.0" text="Cancion:" />
       <TextField fx:id="Path_TextField" disable="true" layoutX="23.0" layoutY="77.0" prefHeight="27.0" prefWidth="354.0" />
       <Button fx:id="Open_Song_Path_Button" layoutX="376.0" layoutY="77.0" mnemonicParsing="false" onAction="#Open_Song_Path_Click" text="Open" />
-      <TextArea fx:id="Lyrics_TextField" layoutX="69.0" layoutY="290.0" prefHeight="200.0" prefWidth="348.0" />
-      <Button fx:id="Upload_Song_Button" layoutX="320.0" layoutY="509.0" mnemonicParsing="false" onAction="#Upload_Song_Click" text="Upload Song" />
-      <TextField fx:id="Genero_TextField" layoutX="93.0" layoutY="121.0" />
-      <TextField fx:id="Artista_TextField" layoutX="93.0" layoutY="157.0" />
-      <TextField fx:id="Album_TextField" layoutX="93.0" layoutY="195.0" />
-      <TextField fx:id="Year_TextField" layoutX="93.0" layoutY="235.0" />
+      <TextArea fx:id="Lyrics_TextField" layoutX="77.0" layoutY="362.0" prefHeight="200.0" prefWidth="348.0" />
+      <Button fx:id="Upload_Song_Button" layoutX="328.0" layoutY="577.0" mnemonicParsing="false" onAction="#Upload_Song_Click" text="Upload Song" />
+      <TextField fx:id="Genero_TextField" layoutX="93.0" layoutY="157.0" />
+      <TextField fx:id="Artista_TextField" layoutX="93.0" layoutY="202.0" />
+      <TextField fx:id="Album_TextField" layoutX="93.0" layoutY="251.0" />
+      <TextField fx:id="Year_TextField" layoutX="93.0" layoutY="301.0" />
+      <Label layoutX="16.0" layoutY="122.0" text="Nombre:" />
+      <TextField fx:id="Nombre_TextField" layoutX="93.0" layoutY="117.0" />
    </children>
 </AnchorPane>

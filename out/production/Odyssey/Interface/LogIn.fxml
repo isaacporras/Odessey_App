@@ -43,6 +43,7 @@
             <Button fx:id="LogInButton" layoutX="252.0" layoutY="260.0" mnemonicParsing="false" onAction="#LogInButton" text="Listo!" />
             <Label layoutX="317.0" layoutY="325.0" text="Get Started!" textFill="#14b1ff" underline="true" />
             <Button fx:id="getStartedButton" layoutX="313.0" layoutY="320.0" mnemonicParsing="false" onAction="#getStartedButton" opacity="0.0" prefHeight="27.0" prefWidth="82.0" text="Button" />
+            <Button fx:id="Skipbutton" layoutX="304.0" layoutY="211.0" mnemonicParsing="false" onAction="#Skipbutton" text="SKIP" />
          </children>
       </Pane>
    </children>
