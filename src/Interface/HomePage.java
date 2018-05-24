@@ -49,6 +49,10 @@ public class HomePage {
 
     @FXML
     private void initialize() {
+
+
+
+
         System.out.println("Root: "+ root);
         Playlist_TreeView.setRoot(root);
         Playlist_TreeView.setShowRoot(false);

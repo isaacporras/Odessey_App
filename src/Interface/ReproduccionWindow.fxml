@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane prefHeight="347.0" prefWidth="527.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Interface.ReproduccionWindow_Controller">
+   <children>
+      <Label layoutX="14.0" layoutY="22.0" text="Nombre:">
+         <font>
+            <Font size="31.0" />
+         </font>
+      </Label>
+      <Label layoutX="14.0" layoutY="69.0" text="Genero:" />
+      <Label layoutX="14.0" layoutY="100.0" text="Artista:" />
+      <Label layoutX="15.0" layoutY="129.0" text="Album:" />
+      <Label layoutX="14.0" layoutY="147.0" />
+      <Label layoutX="15.0" layoutY="156.0" text="Año:" />
+      <TextArea fx:id="Letra_Area" layoutX="37.0" layoutY="214.0" prefHeight="105.0" prefWidth="246.0" />
+      <Slider fx:id="Song_Bar" layoutX="293.0" layoutY="285.0" prefHeight="16.0" prefWidth="234.0" />
+      <Label layoutX="14.0" layoutY="182.0" prefHeight="17.0" prefWidth="45.0" text="Letra:" />
+      <Label fx:id="Genero_Area" layoutX="78.0" layoutY="69.0" prefHeight="17.0" prefWidth="181.0" text="Genero_Label" />
+      <Label fx:id="Artista_Area" layoutX="78.0" layoutY="100.0" prefHeight="17.0" prefWidth="181.0" text="Artista_Label" />
+      <Label fx:id="Album_Area" layoutX="78.0" layoutY="129.0" prefHeight="17.0" prefWidth="203.0" text="Album_Label" />
+      <Label fx:id="Year_Area" layoutX="78.0" layoutY="156.0" prefHeight="17.0" prefWidth="203.0" text="Año_Label" />
+      <Button fx:id="PlayButton" layoutX="329.0" layoutY="201.0" mnemonicParsing="false" onAction="#PlayButton_Clicked" prefHeight="27.0" prefWidth="58.0" text="Play" />
+      <Button fx:id="PausaButton" layoutX="410.0" layoutY="201.0" mnemonicParsing="false" onAction="#PausaButton_Clicked" text="Pausa" />
+   </children>
+</AnchorPane>

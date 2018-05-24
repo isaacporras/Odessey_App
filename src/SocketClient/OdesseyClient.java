@@ -66,11 +66,10 @@ public class OdesseyClient  implements Runnable {
             e.printStackTrace();
         }
 
-
     }
 
     public void startClient() throws IOException {
-        Clientsocket = new Socket("localhost", 1405);
+        Clientsocket = new Socket("localhost", 1414);
     }
 
     /**
