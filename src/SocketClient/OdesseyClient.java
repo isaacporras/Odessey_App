@@ -20,6 +20,21 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.TransformerException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.Path;
+import javazoom.jl.player.Player;
+
+import java.nio.ShortBuffer;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
+import java.util.concurrent.TimeUnit;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.OutputKeys;
+import javazoom.jl.player.Player;
 
 
 public class OdesseyClient  implements Runnable {
@@ -309,6 +324,70 @@ public class OdesseyClient  implements Runnable {
         }
 
         //Termina de mandarlo al servidor
+
+    }
+
+    public static void Play_Song(String XML){
+        //Manda el XML con el nombre de la cancion a reproducir al servidor //
+
+        try {
+            /**
+             * Hay que definir una estructura XML con un ID de operación '13' para la reproducción de MP3.
+             * También debe de contener un parámetro como contador, para ir "seleccionando" los chunks de bytes
+             * necesarios.
+             */
+
+            DataOutputStream outToServer = new DataOutputStream(Clientsocket.getOutputStream());
+            outToServer.writeBytes(XML + '\n');
+        }
+        catch (Exception e){
+            System.out.println(e);
+        }
+
+        new Thread() {
+
+            int counter = 0;
+
+            public void run() {
+                try {
+
+                    /**
+                     * Hay que definir la lectura del XML para la reproducción de los bytes. Finalmente, los chunks
+                     * de bytes serán almacenados como string en 'modifiedSentence'.
+                     */
+
+                    String modifiedSentence;
+
+                    BufferedReader inFromServer = new BufferedReader(new InputStreamReader(Clientsocket.getInputStream()));
+                    modifiedSentence = inFromServer.readLine();
+                    System.out.println("Chunk del MP3 de C-Server: " + modifiedSentence);
+
+                    byte[] bytes =  Base64.getDecoder().decode(modifiedSentence.getBytes(StandardCharsets.UTF_8));
+                    System.out.println(bytes);
+                    MP3 mp3 = new MP3(bytes);
+                    mp3.play();
+                    TimeUnit.SECONDS.sleep(6);
+
+                    counter++;
+
+                    /**
+                     * La siguiente instrucción representa el nuevo XML a enviar con el contador aumentado en 1, que
+                     * hará que el servidor envíe el siguiente chunk del MP3, y la llamada a run() hará que esto se
+                     * ejecute hasta terminar la canción.
+                     *
+                     * RECORDAR!!!: Añadir excepción cuando toda la canción se ha reproducido.
+                     */
+
+                    DataOutputStream outToServer = new DataOutputStream(Clientsocket.getOutputStream());
+                    outToServer.writeBytes(String.valueOf(counter) + '\n');
+
+                    run();
+
+                } catch (Exception e) {
+                    System.out.println(e);
+                }
+            }
+        }.start();
 
     }
 
