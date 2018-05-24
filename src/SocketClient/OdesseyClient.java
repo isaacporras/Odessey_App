@@ -3,6 +3,7 @@ package SocketClient;
 import java.io.*;
 import java.net.*;
 
+import Interface.HomePage;
 import Interface.Main;
 import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 import org.w3c.dom.*;
@@ -40,6 +41,25 @@ public class OdesseyClient  implements Runnable {
         try {
             //Inicia el socket //
             startClient();
+            //Espera la respuesta del servidor a ver si el usuario ya esta registrado //
+
+            String modifiedSentence = null;
+            boolean allPlaylistCharged = true;
+            while(true){
+                BufferedReader inFromServer = new BufferedReader(new InputStreamReader(Clientsocket.getInputStream()));
+                modifiedSentence = inFromServer.readLine();
+                System.out.println("Playlist: " + modifiedSentence);
+                if(modifiedSentence.equals("No_more_Playlist")){
+                    System.out.println("Ya no hay mas playlist");
+                    return;
+                }
+                else{
+//                    HomePage.addTreeItem(modifiedSentence);
+                }
+            }
+
+//        **************//
+
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -49,7 +69,7 @@ public class OdesseyClient  implements Runnable {
     }
 
     public void startClient() throws IOException {
-        Clientsocket = new Socket("localhost", 1380);
+        Clientsocket = new Socket("localhost", 1396);
     }
 
     /**

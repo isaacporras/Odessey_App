@@ -23,7 +23,13 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.File;
+import java.io.IOException;
 import java.io.StringWriter;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Base64;
+
 import SocketClient.OdesseyClient;
 import Interface.HomePage;
 
@@ -143,7 +149,7 @@ public class UploadSong_Controller {
         Element SongBytes = Registrarse_doc.createElement("CancionBytes");
         operation.appendChild(SongBytes);
         //*************************** ACA SE DEBE METER LOS BYTES DE LA CANCION *******************************//
-        SongBytes.appendChild(Registrarse_doc.createTextNode("ACA DEBE IR LA CANCION EN BASE 64"));
+        SongBytes.appendChild(Registrarse_doc.createTextNode(Songtobase64(Path_TextField.getText())));
         //Anade el Nombre de la cancion al xml//
         Element Nombre = Registrarse_doc.createElement("Genero");
         operation.appendChild(Nombre);
@@ -194,5 +200,16 @@ public class UploadSong_Controller {
         }
 
         return null;
+    }
+    public String Songtobase64(String ruta){
+        Path path = Paths.get(ruta);
+        byte[] data = new byte[0];
+        try {
+            data = Files.readAllBytes(path);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String song = Base64.getEncoder().encodeToString(data);
+        return song;
     }
 }

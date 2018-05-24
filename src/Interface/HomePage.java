@@ -26,6 +26,7 @@ import java.lang.reflect.InvocationTargetException;
 
 public class HomePage {
     public static String playlist_selected = "";
+    public static String playlist_To_Charge = "";
 
     @FXML
     private TextField PlayList_Name_TextField;
@@ -119,6 +120,13 @@ public class HomePage {
         }
 
 
+    }
+    public static void setPlaylist_To_Charge(String playlistname){
+        playlist_To_Charge = playlistname;
+
+    }
+    public void addTreeItem(){
+//        Playlist_TreeView.;
     }
 
     @FXML
