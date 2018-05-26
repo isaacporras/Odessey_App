@@ -50,8 +50,6 @@ public class HomePage {
 
     HomePage homePage = this;
 
-
-
     @FXML
     private TextField PlayList_Name_TextField;
 
@@ -124,7 +122,6 @@ public class HomePage {
                             public void handle(ActionEvent arg0) {
                                 displayUpload_Window(item);
 
-//                                playlist_selected = item.getValue();
 
                             }
                         }).build()).build();
@@ -189,8 +186,8 @@ public class HomePage {
         PlayButton.setLayoutY(302);
 
         PlayButton.setOnAction(e->{
-            String xml = makeXML_for_Reproduction(item.getParent().getValue(),item.getValue());
-            OdesseyClient.Play_Song(xml);
+//            String xml = makeXML_for_Reproduction(item.getParent().getValue(),item.getValue(), "0");
+            OdesseyClient.Play_Song(item.getParent().getValue(), item.getValue(), "0");
 
         });
 
@@ -217,6 +214,7 @@ public class HomePage {
     }
 
     public TreeItem<String> search_PlayList_in_TreeView(String nombre){
+
         System.out.println("El buscado es:" + nombre);
         TreeIterator<String> iterator = new TreeIterator<>(root);
         int nItems = 0;
@@ -244,7 +242,8 @@ public class HomePage {
 
 
     }
-    public String makeXML_for_Reproduction(String playlist, String song){
+    public String makeXML_for_Reproduction(String playlist, String song, String chunk){
+
         //Crea el documento XML//
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder dBuilder = null;
@@ -275,6 +274,10 @@ public class HomePage {
         Element cancion = Reproducir_doc.createElement("Cancion");
         operation.appendChild(cancion);
         cancion.appendChild(Reproducir_doc.createTextNode(song));
+
+        Element Chunk = Reproducir_doc.createElement("Chunk");
+        operation.appendChild(Chunk);
+        Chunk.appendChild(Reproducir_doc.createTextNode(chunk));
 
         System.out.println("La cancion que se quiere reproducir va en:" + convertDocumentToString(Reproducir_doc));
         return convertDocumentToString(Reproducir_doc);

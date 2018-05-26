@@ -317,7 +317,8 @@ public class OdesseyClient  implements Runnable {
 
         return false;
     }
-    public static void Play_Song(String XML){
+
+    public static void Play_Song(String playlist, String song, String chunk){
         //Manda el XML con el nombre de la cancion a reproducir al servidor //
 
         try {
@@ -326,9 +327,9 @@ public class OdesseyClient  implements Runnable {
              * También debe de contener un parámetro como contador, para ir "seleccionando" los chunks de bytes
              * necesarios.
              */
-
+            String xml = makeXML_for_Reproduction(playlist,song,chunk);
             DataOutputStream outToServer = new DataOutputStream(Clientsocket.getOutputStream());
-            outToServer.writeBytes(XML + '\n');
+            outToServer.writeBytes(xml + '\n');
         }
         catch (Exception e){
             System.out.println(e);
@@ -358,7 +359,7 @@ public class OdesseyClient  implements Runnable {
                     mp3.play();
                     TimeUnit.SECONDS.sleep(6);
 
-                    counter++;
+                    counter = counter + 1 ;
 
                     /**
                      * La siguiente instrucción representa el nuevo XML a enviar con el contador aumentado en 1, que
@@ -367,9 +368,9 @@ public class OdesseyClient  implements Runnable {
                      *
                      * RECORDAR!!!: Añadir excepción cuando toda la canción se ha reproducido.
                      */
-
+                    String newXml = makeXML_for_Reproduction(playlist,song,String.valueOf(counter));
                     DataOutputStream outToServer = new DataOutputStream(Clientsocket.getOutputStream());
-                    outToServer.writeBytes(String.valueOf(counter) + '\n');
+                    outToServer.writeBytes(newXml + '\n');
 
                     run();
 
@@ -379,6 +380,46 @@ public class OdesseyClient  implements Runnable {
             }
         }.start();
 
+    }
+    public static String makeXML_for_Reproduction(String playlist, String song, String chunk){
+
+        //Crea el documento XML//
+        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder dBuilder = null;
+        //
+        try {
+            dBuilder = dbFactory.newDocumentBuilder();
+        } catch (ParserConfigurationException e) {
+            System.out.println("NO SE CREO EL DOCUMENTO");
+            e.printStackTrace();
+        }
+        //Instancia el documento
+        Document Reproducir_doc = dBuilder.newDocument();
+        //
+        //Crea el elemento principal del XML
+        Element operation = Reproducir_doc.createElement("OperationCode");
+        Reproducir_doc.appendChild(operation);
+        //
+        //Le anade un atributo al operation code(3-> Song sending to server)//
+        Attr attr = Reproducir_doc.createAttribute("ID");
+        attr.setValue("13");
+        operation.setAttributeNode(attr);
+        //Anade el Playlist donde se contiene la cancion que se quiere reproducir//
+        Element Playlist = Reproducir_doc.createElement("Playlist");
+        operation.appendChild(Playlist);
+        Playlist.appendChild(Reproducir_doc.createTextNode(playlist));
+
+        //Anade el nombre la cancion que se quiere reproducir//
+        Element cancion = Reproducir_doc.createElement("Cancion");
+        operation.appendChild(cancion);
+        cancion.appendChild(Reproducir_doc.createTextNode(song));
+
+        Element Chunk = Reproducir_doc.createElement("Chunk");
+        operation.appendChild(Chunk);
+        Chunk.appendChild(Reproducir_doc.createTextNode(chunk));
+
+        System.out.println("La cancion que se quiere reproducir va en:" + convertDocumentToString(Reproducir_doc));
+        return convertDocumentToString(Reproducir_doc);
     }
 
     public static void Send_Song_to_Server(String XML) {
