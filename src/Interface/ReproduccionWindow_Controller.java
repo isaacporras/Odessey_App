@@ -8,6 +8,10 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.TextArea;
 
 public class ReproduccionWindow_Controller {
+    String cancion_en_reproduccion;
+    ReproduccionWindow_Controller(String cancion){
+        cancion_en_reproduccion = cancion;
+    }
     @FXML
     private Label Genero_Area;
 

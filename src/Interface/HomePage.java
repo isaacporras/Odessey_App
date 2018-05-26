@@ -8,12 +8,13 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-
+import javafx.event.ActionEvent;
 
 import javafx.event.ActionEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -106,14 +107,7 @@ public class HomePage {
 
 
     }
-    public void AddItemToTreeView(String rt ,String value){
-        TreeItem<String> item = new TreeItem<String>();
-        item.setValue(value);
-        TreeItem<String> item2 = search_PlayList_in_TreeView(rt);
 
-        item2.getChildren().addAll(item);
-
-    }
 
     @FXML
     void TreeView_Item_Clicked(MouseEvent mouseEvent) {
@@ -142,13 +136,75 @@ public class HomePage {
                         MenuItemBuilder.create().text("PlaySong").onAction(new EventHandler<ActionEvent>() {
                             @Override
                             public void handle(ActionEvent arg0) {
-
+                                displayReproduccionWindow();
 
                             }
                         }).build()).build();
                 Playlist_TreeView.setContextMenu(rootContextMenu);
             }
         }
+    }
+    public void displayReproduccionWindow(){
+        Stage Ventana_Reproduccion = new Stage();
+        Ventana_Reproduccion.initModality(Modality.APPLICATION_MODAL);
+
+        Ventana_Reproduccion.initModality(Modality.APPLICATION_MODAL);
+        Ventana_Reproduccion.setTitle("Reproduciendo Cancion");
+
+
+        Label Nombre_Label = new Label("Nombre:");
+        Nombre_Label.setLayoutX(14);
+        Nombre_Label.setLayoutY(22);
+        Nombre_Label.setFont(new Font(31));
+
+        Label Genero_Label = new Label("Genero:");
+        Genero_Label.setLayoutX(14);
+        Genero_Label.setLayoutY(69);
+
+        Label Artista_Label = new Label("Artista:");
+        Artista_Label.setLayoutX(14);
+        Artista_Label.setLayoutY(100);
+
+        Label Album_Label = new Label("Album:");
+        Album_Label.setLayoutX(14);
+        Album_Label.setLayoutY(129);
+
+        Label Year_Label = new Label("Año:");
+        Year_Label.setLayoutX(14);
+        Year_Label.setLayoutY(156);
+
+        Label Letra_Label = new Label("Letra:");
+        Letra_Label.setLayoutX(14);
+        Letra_Label.setLayoutY(182);
+
+        TextArea Letra_TextField = new TextArea();
+        Letra_TextField.setLayoutX(37);
+        Letra_TextField.setLayoutY(214);
+        Letra_TextField.setPrefSize(246, 175);
+
+        Button PlayButton = new Button("Play");
+        PlayButton.setLayoutX(367);
+        PlayButton.setLayoutY(302);
+
+        Button PauseButton = new Button("Pause");
+        PauseButton.setLayoutX(438);
+        PauseButton.setLayoutY(302);
+
+        Slider Song_Slider = new Slider();
+        Song_Slider.setLayoutX(301);
+        Song_Slider.setLayoutY(353);
+        Song_Slider.setPrefSize(274,16);
+
+        Pane Reproduccion_AnchorPane = new Pane();
+
+        Reproduccion_AnchorPane.getChildren().addAll(Nombre_Label,
+                Genero_Label,  Artista_Label, Album_Label, Year_Label,
+                Letra_Label, Letra_TextField, PauseButton, PlayButton, Song_Slider);
+        Scene Reproduccion_Scene = new Scene(Reproduccion_AnchorPane, 575, 406);
+        Ventana_Reproduccion.setScene(Reproduccion_Scene);
+        Ventana_Reproduccion.showAndWait();
+
+
     }
 
     public TreeItem<String> search_PlayList_in_TreeView(String nombre){
