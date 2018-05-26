@@ -12,6 +12,7 @@ import javax.xml.parsers.*;
 import javax.xml.xpath.*;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 import javax.xml.transform.stream.StreamResult;
@@ -21,21 +22,20 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.TransformerException;
 import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.Path;
-import javazoom.jl.player.Player;
+ import java.nio.file.Paths;
+ import java.nio.file.Path;
+ import javazoom.jl.player.Player;
 
-import java.nio.ShortBuffer;
-import java.nio.charset.StandardCharsets;
-import java.util.Base64;
-import java.util.concurrent.TimeUnit;
-import javax.xml.transform.stream.StreamResult;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.OutputKeys;
-import javazoom.jl.player.Player;
-
+         import java.nio.ShortBuffer;
+ import java.nio.charset.StandardCharsets;
+ import java.util.Base64;
+ import java.util.concurrent.TimeUnit;
+ import javax.xml.transform.stream.StreamResult;
+ import javax.xml.transform.Transformer;
+ import javax.xml.transform.TransformerFactory;
+ import javax.xml.transform.dom.DOMSource;
+ import javax.xml.transform.OutputKeys;
+ import javazoom.jl.player.Player;
 
 public class OdesseyClient  implements Runnable {
     public static Socket Clientsocket;
@@ -84,7 +84,7 @@ public class OdesseyClient  implements Runnable {
     }
 
     public void startClient() throws IOException {
-        Clientsocket = new Socket("localhost", 1414);
+        Clientsocket = new Socket("localhost", 1421);
     }
 
     /**
@@ -93,6 +93,7 @@ public class OdesseyClient  implements Runnable {
      * @param playlistName nombre del playlist
      */
     public static void AddPlaylist(String playlistName) {
+
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder dBuilder = null;
 
@@ -313,20 +314,6 @@ public class OdesseyClient  implements Runnable {
 
         return false;
     }
-
-    public static void Send_Song_to_Server(String XML) {
-        //Manda el XML con la informacion de la cancion al servidor //
-        try {
-            DataOutputStream outToServer = new DataOutputStream(Clientsocket.getOutputStream());
-            outToServer.writeBytes(XML + '\n');
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        //Termina de mandarlo al servidor
-
-    }
-
     public static void Play_Song(String XML){
         //Manda el XML con el nombre de la cancion a reproducir al servidor //
 
@@ -388,6 +375,19 @@ public class OdesseyClient  implements Runnable {
                 }
             }
         }.start();
+
+    }
+
+    public static void Send_Song_to_Server(String XML) {
+        //Manda el XML con la informacion de la cancion al servidor //
+        try {
+            DataOutputStream outToServer = new DataOutputStream(Clientsocket.getOutputStream());
+            outToServer.writeBytes(XML + '\n');
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        //Termina de mandarlo al servidor
 
     }
 
@@ -457,13 +457,12 @@ public class OdesseyClient  implements Runnable {
         //Espera la respuesta de las playlist //
 
 
-
         List<String> playlistNames = new ArrayList<String>();
 
 
         boolean allPlaylistCharged = true;
 
-        while(allPlaylistCharged) {
+        while (allPlaylistCharged) {
 
             try {
                 //Inicia el socket //
@@ -472,16 +471,15 @@ public class OdesseyClient  implements Runnable {
 
                 String modifiedSentence = null;
                 allPlaylistCharged = true;
-                while(true){
+                while (true) {
                     BufferedReader inFromServer = new BufferedReader(new InputStreamReader(Clientsocket.getInputStream()));
                     modifiedSentence = inFromServer.readLine();
                     System.out.println("Playlist: " + modifiedSentence);
-                    if(!modifiedSentence.equals("finished")&& !modifiedSentence.equals("..")){
+                    if (!modifiedSentence.equals("finished") && !modifiedSentence.equals("..")) {
                         playlistNames.add(modifiedSentence);
 
 
-                    }
-                    else if(modifiedSentence.equals("finished")){
+                    } else if (modifiedSentence.equals("finished")) {
                         System.out.println("Ya no hay mas playlist");
                         return playlistNames;
                     }
@@ -513,6 +511,71 @@ public class OdesseyClient  implements Runnable {
 //        ******************************** //
         return playlistNames;
 
-}
+    }
 
+    public static List<String> getSonglist() {
+
+        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder dBuilder = null;
+        //
+        try {
+            dBuilder = dbFactory.newDocumentBuilder();
+        } catch (ParserConfigurationException e) {
+            System.out.println("NO SE CREO EL DOCUMENTO");
+            e.printStackTrace();
+        }
+        //Instancia el documento
+        Document SonglisXML_DOC = dBuilder.newDocument();
+        //
+
+        //Crea el elemento principal del XML
+        Element operation = SonglisXML_DOC.createElement("OperationCode");
+        SonglisXML_DOC.appendChild(operation);
+        //
+        //Le anade un atributo al operation code(6-> get songs names)//
+        Attr attr = SonglisXML_DOC.createAttribute("ID");
+        attr.setValue("6");
+        operation.setAttributeNode(attr);
+        //Manda el XML con la informacion de registro al servidor //
+        try {
+            DataOutputStream outToServer = new DataOutputStream(Clientsocket.getOutputStream());
+            outToServer.writeBytes(convertDocumentToString(SonglisXML_DOC) + '\n');
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        List<String> SongNames = new ArrayList<String>();
+        boolean finished = true;
+        System.out.println("SE EMPIEZA LLOS RESULTADOS DE LA BUSQUEDA EN PROFUNDIDAD");
+        boolean allPlaylistCharged = true;
+
+        while (allPlaylistCharged) {
+
+            try {
+                //Inicia el socket //
+
+                //Espera la respuesta del servidor a ver si el usuario ya esta registrado //
+
+                String modifiedSentence = null;
+                allPlaylistCharged = true;
+                while (true) {
+                    BufferedReader inFromServer = new BufferedReader(new InputStreamReader(Clientsocket.getInputStream()));
+                    modifiedSentence = inFromServer.readLine();
+                    System.out.println("TreeView Structure: " + modifiedSentence);
+                    if (!modifiedSentence.equals("finished") && !modifiedSentence.equals("..")) {
+                        SongNames.add(modifiedSentence);
+
+
+                    } else if (modifiedSentence.equals("finished")) {
+                        System.out.println("Ya no hay mas playlist");
+                        return SongNames;
+                    }
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return SongNames;
+    }
 }
