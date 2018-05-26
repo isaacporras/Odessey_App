@@ -37,6 +37,9 @@ import java.nio.file.Files;
  import javax.xml.transform.OutputKeys;
  import javazoom.jl.player.Player;
 
+/**
+ * Clase que se encarga de la coneccion con servidor
+ */
 public class OdesseyClient  implements Runnable {
     public static Socket Clientsocket;
     static DataInput dataInput;
