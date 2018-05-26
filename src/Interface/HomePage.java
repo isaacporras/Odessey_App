@@ -131,12 +131,13 @@ public class HomePage {
                 Playlist_TreeView.setContextMenu(rootContextMenu);
             }
             else if(item.getParent().getParent() == root){
+
                 ContextMenu rootContextMenu = ContextMenuBuilder.create().items(
 
                         MenuItemBuilder.create().text("PlaySong").onAction(new EventHandler<ActionEvent>() {
                             @Override
                             public void handle(ActionEvent arg0) {
-                                displayReproduccionWindow();
+                                displayReproduccionWindow(item);
 
                             }
                         }).build()).build();
@@ -144,7 +145,8 @@ public class HomePage {
             }
         }
     }
-    public void displayReproduccionWindow(){
+    public void displayReproduccionWindow(TreeItem<String> item){
+
         Stage Ventana_Reproduccion = new Stage();
         Ventana_Reproduccion.initModality(Modality.APPLICATION_MODAL);
 
@@ -186,9 +188,16 @@ public class HomePage {
         PlayButton.setLayoutX(367);
         PlayButton.setLayoutY(302);
 
+        PlayButton.setOnAction(e->{
+            String xml = makeXML_for_Reproduction(item.getParent().getValue(),item.getValue());
+            OdesseyClient.Play_Song(xml);
+
+        });
+
         Button PauseButton = new Button("Pause");
         PauseButton.setLayoutX(438);
         PauseButton.setLayoutY(302);
+
 
         Slider Song_Slider = new Slider();
         Song_Slider.setLayoutX(301);
@@ -225,7 +234,7 @@ public class HomePage {
             else {
                 System.out.println("El que no cumplio es: "+Playlist_TreeView.getTreeItem(contador).getValue());
 
-                contador = contador + 1;
+                contador = contador + 1 ;
             }
         }
         TreeItem<String> defaultItem = new TreeItem<String>();
@@ -234,6 +243,41 @@ public class HomePage {
 
 
 
+    }
+    public String makeXML_for_Reproduction(String playlist, String song){
+        //Crea el documento XML//
+        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder dBuilder = null;
+        //
+        try {
+            dBuilder = dbFactory.newDocumentBuilder();
+        } catch (ParserConfigurationException e) {
+            System.out.println("NO SE CREO EL DOCUMENTO");
+            e.printStackTrace();
+        }
+        //Instancia el documento
+        Document Reproducir_doc = dBuilder.newDocument();
+        //
+        //Crea el elemento principal del XML
+        Element operation = Reproducir_doc.createElement("OperationCode");
+        Reproducir_doc.appendChild(operation);
+        //
+        //Le anade un atributo al operation code(3-> Song sending to server)//
+        Attr attr = Reproducir_doc.createAttribute("ID");
+        attr.setValue("13");
+        operation.setAttributeNode(attr);
+        //Anade el Playlist donde se contiene la cancion que se quiere reproducir//
+        Element Playlist = Reproducir_doc.createElement("Playlist");
+        operation.appendChild(Playlist);
+        Playlist.appendChild(Reproducir_doc.createTextNode(playlist));
+
+        //Anade el nombre la cancion que se quiere reproducir//
+        Element cancion = Reproducir_doc.createElement("Cancion");
+        operation.appendChild(cancion);
+        cancion.appendChild(Reproducir_doc.createTextNode(song));
+
+        System.out.println("La cancion que se quiere reproducir va en:" + convertDocumentToString(Reproducir_doc));
+        return convertDocumentToString(Reproducir_doc);
     }
     public void AddSongToTreeView(List<String> response){
 
