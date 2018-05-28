@@ -242,46 +242,7 @@ public class HomePage {
 
 
     }
-    public String makeXML_for_Reproduction(String playlist, String song, String chunk){
 
-        //Crea el documento XML//
-        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder dBuilder = null;
-        //
-        try {
-            dBuilder = dbFactory.newDocumentBuilder();
-        } catch (ParserConfigurationException e) {
-            System.out.println("NO SE CREO EL DOCUMENTO");
-            e.printStackTrace();
-        }
-        //Instancia el documento
-        Document Reproducir_doc = dBuilder.newDocument();
-        //
-        //Crea el elemento principal del XML
-        Element operation = Reproducir_doc.createElement("OperationCode");
-        Reproducir_doc.appendChild(operation);
-        //
-        //Le anade un atributo al operation code(3-> Song sending to server)//
-        Attr attr = Reproducir_doc.createAttribute("ID");
-        attr.setValue("13");
-        operation.setAttributeNode(attr);
-        //Anade el Playlist donde se contiene la cancion que se quiere reproducir//
-        Element Playlist = Reproducir_doc.createElement("Playlist");
-        operation.appendChild(Playlist);
-        Playlist.appendChild(Reproducir_doc.createTextNode(playlist));
-
-        //Anade el nombre la cancion que se quiere reproducir//
-        Element cancion = Reproducir_doc.createElement("Cancion");
-        operation.appendChild(cancion);
-        cancion.appendChild(Reproducir_doc.createTextNode(song));
-
-        Element Chunk = Reproducir_doc.createElement("Chunk");
-        operation.appendChild(Chunk);
-        Chunk.appendChild(Reproducir_doc.createTextNode(chunk));
-
-        System.out.println("La cancion que se quiere reproducir va en:" + convertDocumentToString(Reproducir_doc));
-        return convertDocumentToString(Reproducir_doc);
-    }
     public void AddSongToTreeView(List<String> response){
 
         System.out.println("EN HOME PAGE");

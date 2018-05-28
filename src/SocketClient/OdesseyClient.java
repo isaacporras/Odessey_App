@@ -622,4 +622,36 @@ public class OdesseyClient  implements Runnable {
         }
         return SongNames;
     }
+    public static void chargeUsers(){
+        //Crea el documento XML//
+        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder dBuilder = null;
+        //
+        try {
+            dBuilder = dbFactory.newDocumentBuilder();
+        } catch (ParserConfigurationException e) {
+            System.out.println("NO SE CREO EL DOCUMENTO");
+            e.printStackTrace();
+        }
+        //Instancia el documento
+        Document Charge_Users_Doc = dBuilder.newDocument();
+        //
+        //Crea el elemento principal del XML
+        Element operation = Charge_Users_Doc.createElement("OperationCode");
+        Charge_Users_Doc.appendChild(operation);
+        //
+        //Le anade un atributo al operation code(3-> Song sending to server)//
+        Attr attr = Charge_Users_Doc.createAttribute("ID");
+        attr.setValue("7");
+        operation.setAttributeNode(attr);
+
+        //Manda el XML con la informacion de registro al servidor //
+        try {
+            DataOutputStream outToServer = new DataOutputStream(Clientsocket.getOutputStream());
+            outToServer.writeBytes(convertDocumentToString(Charge_Users_Doc) + '\n');
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
 }

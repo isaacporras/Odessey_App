@@ -29,6 +29,12 @@ public class LogInController {
     @FXML
     private Button getStartedButton;
 
+
+    @FXML
+    private void initialize() {
+        OdesseyClient.chargeUsers();
+    }
+
     @FXML
     void Skipbutton(ActionEvent event) {
         Parent home_page = null;

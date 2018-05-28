@@ -49,7 +49,6 @@ public class RegistrarseController {
             if (OdesseyClient.Registrar_Usario(Username_TextField.getText(),Name_TextFiel.getText(),Age_TextFiel.getText(),Password_TextFiel.getText()
                     ,Rock_RadioButton.isSelected(),Pop_RadioButton.isSelected(),Reggae_RadioButton.isSelected())){
 
-
                 Parent LogIn_page = null;
                 try {
                     LogIn_page = FXMLLoader.load(getClass().getResource("LogIn.fxml"));
@@ -71,7 +70,8 @@ public class RegistrarseController {
 
                 alert.showAndWait();
             }
-        }else{
+        }
+        else{
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Error!");
 
