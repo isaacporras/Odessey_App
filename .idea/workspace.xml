@@ -1,16 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Odyssey/Interface/HomePage$1.class" afterPath="$PROJECT_DIR$/out/production/Odyssey/Interface/HomePage$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Odyssey/Interface/HomePage$2.class" afterPath="$PROJECT_DIR$/out/production/Odyssey/Interface/HomePage$2.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Odyssey/Interface/HomePage$TreeIterator.class" afterPath="$PROJECT_DIR$/out/production/Odyssey/Interface/HomePage$TreeIterator.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Odyssey/Interface/HomePage.class" afterPath="$PROJECT_DIR$/out/production/Odyssey/Interface/HomePage.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Odyssey/SocketClient/OdesseyClient.class" afterPath="$PROJECT_DIR$/out/production/Odyssey/SocketClient/OdesseyClient.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Interface/HomePage.java" afterPath="$PROJECT_DIR$/src/Interface/HomePage.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/SocketClient/OdesseyClient.java" afterPath="$PROJECT_DIR$/src/SocketClient/OdesseyClient.java" />
-    </list>
+    <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="" />
     <ignored path="JavaFxApplication.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path="$PROJECT_DIR$/out/" />
@@ -70,8 +61,8 @@
       <file leaf-file-name="OdesseyClient.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/SocketClient/OdesseyClient.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2797">
-              <caret line="584" column="53" lean-forward="true" selection-start-line="584" selection-start-column="53" selection-end-line="584" selection-end-column="53" />
+            <state relative-caret-position="112">
+              <caret line="405" column="41" lean-forward="true" selection-start-line="405" selection-start-column="41" selection-end-line="405" selection-end-column="41" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <marker date="1527490506732" expanded="true" signature="18832:18840" ph="&lt;~&gt;" />
@@ -978,8 +969,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/SocketClient/OdesseyClient.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2797">
-          <caret line="584" column="53" lean-forward="true" selection-start-line="584" selection-start-column="53" selection-end-line="584" selection-end-column="53" />
+        <state relative-caret-position="112">
+          <caret line="405" column="41" lean-forward="true" selection-start-line="405" selection-start-column="41" selection-end-line="405" selection-end-column="41" />
           <folding>
             <element signature="imports" expanded="true" />
             <marker date="1527490506732" expanded="true" signature="18832:18840" ph="&lt;~&gt;" />
