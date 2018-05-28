@@ -84,6 +84,7 @@ public class HomePage {
         if(!SongNames.isEmpty()){
             AddSongToTreeView(SongNames);
         }
+        OdesseyClient.chargeSongsName();
 
     }
     @FXML
@@ -144,6 +145,11 @@ public class HomePage {
     }
     public void displayReproduccionWindow(TreeItem<String> item){
 
+        List<String> metadata = OdesseyClient.getMetadataList(item.getValue());
+
+
+
+
         Stage Ventana_Reproduccion = new Stage();
         Ventana_Reproduccion.initModality(Modality.APPLICATION_MODAL);
 
@@ -156,21 +162,42 @@ public class HomePage {
         Nombre_Label.setLayoutY(22);
         Nombre_Label.setFont(new Font(31));
 
+        Label Nombre_Label_text = new Label(metadata.get(0));
+        Nombre_Label_text.setLayoutX(150);
+        Nombre_Label_text.setLayoutY(22);
+        Nombre_Label_text.setFont(new Font(31));
+
         Label Genero_Label = new Label("Genero:");
         Genero_Label.setLayoutX(14);
         Genero_Label.setLayoutY(69);
+
+        Label Genero_Label_text = new Label(metadata.get(1));
+        Genero_Label_text.setLayoutX(78);
+        Genero_Label_text.setLayoutY(69);
 
         Label Artista_Label = new Label("Artista:");
         Artista_Label.setLayoutX(14);
         Artista_Label.setLayoutY(100);
 
+        Label Artista_Label_text = new Label(metadata.get(2));
+        Artista_Label_text.setLayoutX(78);
+        Artista_Label_text.setLayoutY(100);
+
         Label Album_Label = new Label("Album:");
         Album_Label.setLayoutX(14);
         Album_Label.setLayoutY(129);
 
+        Label Album_Label_text = new Label(metadata.get(3));
+        Album_Label_text.setLayoutX(78);
+        Album_Label_text.setLayoutY(129);
+
         Label Year_Label = new Label("Año:");
         Year_Label.setLayoutX(14);
         Year_Label.setLayoutY(156);
+
+        Label Year_Label_text = new Label(metadata.get(4));
+        Year_Label_text.setLayoutX(78);
+        Year_Label_text.setLayoutY(156);
 
         Label Letra_Label = new Label("Letra:");
         Letra_Label.setLayoutX(14);
@@ -180,6 +207,10 @@ public class HomePage {
         Letra_TextField.setLayoutX(37);
         Letra_TextField.setLayoutY(214);
         Letra_TextField.setPrefSize(246, 175);
+
+        Letra_TextField.setText(metadata.get(5));
+
+        Letra_TextField.setEditable(false);
 
         Button PlayButton = new Button("Play");
         PlayButton.setLayoutX(367);
@@ -203,8 +234,9 @@ public class HomePage {
 
         Pane Reproduccion_AnchorPane = new Pane();
 
-        Reproduccion_AnchorPane.getChildren().addAll(Nombre_Label,
-                Genero_Label,  Artista_Label, Album_Label, Year_Label,
+        Reproduccion_AnchorPane.getChildren().addAll(Nombre_Label,Nombre_Label_text,
+                Genero_Label,Genero_Label_text,  Artista_Label,Artista_Label_text, Album_Label,Album_Label_text,
+                Year_Label,Year_Label_text,
                 Letra_Label, Letra_TextField, PauseButton, PlayButton, Song_Slider);
         Scene Reproduccion_Scene = new Scene(Reproduccion_AnchorPane, 575, 406);
         Ventana_Reproduccion.setScene(Reproduccion_Scene);
@@ -289,6 +321,8 @@ public class HomePage {
     }
 
     public void displayUpload_Window(TreeItem<String> item) {
+
+
         Stage ventanaUpload = new Stage();
         ventanaUpload.initModality(Modality.APPLICATION_MODAL);
 
@@ -317,7 +351,7 @@ public class HomePage {
 
         Open_Button.setOnAction(e -> {
             FileChooser fileChooser = new FileChooser();
-            fileChooser.setTitle("Buscar Imagen");
+            fileChooser.setTitle("Buscar Cancion");
 
 
             // Agregar filtros para facilitar la busqueda
@@ -402,13 +436,15 @@ public class HomePage {
             if (!Genero_TextField.getText().equals("") && !Artista_TextField.getText().equals("") && !Album_TextField.getText().equals("") &&
                     !Year_TextField.getText().equals("") && !Letra_TextField.getText().equals("") && !Path_TextField.getText().equals("")) {
                 UploadSong_Button.setDisable(true);
-                String xml = Generate_Song_XML(Path_TextField.getText(), Nombre_TextField.getText(), Genero_Label.getText(),
+
+                String xml = Generate_Song_XML(Path_TextField.getText(), Nombre_TextField.getText(), Genero_TextField.getText(),
                         Artista_TextField.getText(), Album_TextField.getText(), Year_TextField.getText(), Letra_TextField.getText(), item.getValue());
+
 
                 OdesseyClient.Send_Song_to_Server(xml);
 
                 TreeItem<String> NewSongItem = new TreeItem<String>();
-                NewSongItem.setValue(Nombre_TextField.getText());
+                NewSongItem.setValue(Nombre_TextField.getText() + ".mp3");
                 item.getChildren().addAll(NewSongItem);
                 ventanaUpload.close();
 
@@ -437,11 +473,11 @@ public class HomePage {
         ventanaUpload.showAndWait();
 
     }
-    public void addTreeItem(String playlist, String nombre){
 
-    }
 
     public String Songtobase64(String ruta){
+
+
         Path path = Paths.get(ruta);
         byte[] data = new byte[0];
         try {
@@ -503,7 +539,7 @@ public class HomePage {
         //*************************** ACA SE DEBE METER LOS BYTES DE LA CANCION *******************************//
         SongBytes.appendChild(Registrarse_doc.createTextNode(Songtobase64(path)));
         //Anade el Nombre de la cancion al xml//
-        Element Nombre = Registrarse_doc.createElement("Genero");
+        Element Nombre = Registrarse_doc.createElement("Nombre");
         operation.appendChild(Nombre);
         Nombre.appendChild(Registrarse_doc.createTextNode(nombre));
         //Anade el Generp al xml//
@@ -522,14 +558,23 @@ public class HomePage {
         Element Year = Registrarse_doc.createElement("Year");
         operation.appendChild(Year);
         Year.appendChild(Registrarse_doc.createTextNode(year));
+
+
+        Element PlaylistElement = Registrarse_doc.createElement("Playlist");
+        operation.appendChild(PlaylistElement);
+        PlaylistElement.appendChild(Registrarse_doc.createTextNode(playlist));
+        System.out.println("El playlist que busco es este:" + playlist);
+
         //Anade el Letra musical favorito //
         Element Letra = Registrarse_doc.createElement("Letra");
         operation.appendChild(Letra);
         Letra.appendChild(Registrarse_doc.createTextNode(lyrics));
         //Anade el playlist al cual anadir la cancion //
-        Element PlaylistElement = Registrarse_doc.createElement("Playlist");
-        operation.appendChild(PlaylistElement);
-        PlaylistElement.appendChild(Registrarse_doc.createTextNode(playlist));
+
+        if(Letra.getFirstChild().getNodeValue().equals("")){
+            Letra.appendChild(Registrarse_doc.createTextNode("La letra contiene caracteres ilegibles"));
+        }
+
 
         //*********************** TERMINA EL DOCUMENTO ******************************************* //
         String xml = convertDocumentToString(Registrarse_doc);

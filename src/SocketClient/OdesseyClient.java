@@ -556,7 +556,76 @@ public class OdesseyClient  implements Runnable {
         return playlistNames;
 
     }
+    public static List<String> getMetadataList(String songname) {
 
+        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder dBuilder = null;
+        //
+        try {
+            dBuilder = dbFactory.newDocumentBuilder();
+        } catch (ParserConfigurationException e) {
+            System.out.println("NO SE CREO EL DOCUMENTO");
+            e.printStackTrace();
+        }
+        //Instancia el documento
+        Document Metadata_XML_DOC = dBuilder.newDocument();
+        //
+
+        //Crea el elemento principal del XML
+        Element operation = Metadata_XML_DOC.createElement("OperationCode");
+        Metadata_XML_DOC.appendChild(operation);
+        //
+        //Le anade un atributo al operation code(6-> get songs names)//
+        Attr attr = Metadata_XML_DOC.createAttribute("ID");
+        attr.setValue("9");
+        operation.setAttributeNode(attr);
+        //Anade el nombre de la cancion//
+        Element Nombre = Metadata_XML_DOC.createElement("Nombre");
+        operation.appendChild(Nombre);
+        System.out.println("The metadata song is :"+ songname);
+        Nombre.appendChild(Metadata_XML_DOC.createTextNode(songname));
+        //Manda el XML con la informacion de registro al servidor //
+        try {
+            DataOutputStream outToServer = new DataOutputStream(Clientsocket.getOutputStream());
+            outToServer.writeBytes(convertDocumentToString(Metadata_XML_DOC) + '\n');
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        List<String>  Metadata = new ArrayList<String>();
+        boolean finished = true;
+        System.out.println("SE EMPIEZA LLOS RESULTADOS DE LA BUSQUEDA EN PROFUNDIDAD");
+        boolean allPlaylistCharged = true;
+
+        while (allPlaylistCharged) {
+
+            try {
+                //Inicia el socket //
+
+                //Espera la respuesta del servidor a ver si el usuario ya esta registrado //
+
+                String modifiedSentence = null;
+                allPlaylistCharged = true;
+                while (true) {
+                    BufferedReader inFromServer = new BufferedReader(new InputStreamReader(Clientsocket.getInputStream()));
+                    modifiedSentence = inFromServer.readLine();
+                    System.out.println("Metadata: " + modifiedSentence);
+                    if (!modifiedSentence.equals("finished") && !modifiedSentence.equals("..")) {
+                        Metadata.add(modifiedSentence);
+
+
+                    } else if (modifiedSentence.equals("finished")) {
+                        System.out.println("Ya no hay mas metadata");
+                        return Metadata;
+                    }
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return Metadata;
+    }
     public static List<String> getSonglist() {
 
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -643,6 +712,38 @@ public class OdesseyClient  implements Runnable {
         //Le anade un atributo al operation code(3-> Song sending to server)//
         Attr attr = Charge_Users_Doc.createAttribute("ID");
         attr.setValue("7");
+        operation.setAttributeNode(attr);
+
+        //Manda el XML con la informacion de registro al servidor //
+        try {
+            DataOutputStream outToServer = new DataOutputStream(Clientsocket.getOutputStream());
+            outToServer.writeBytes(convertDocumentToString(Charge_Users_Doc) + '\n');
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+    public static void chargeSongsName(){
+        //Crea el documento XML//
+        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder dBuilder = null;
+        //
+        try {
+            dBuilder = dbFactory.newDocumentBuilder();
+        } catch (ParserConfigurationException e) {
+            System.out.println("NO SE CREO EL DOCUMENTO");
+            e.printStackTrace();
+        }
+        //Instancia el documento
+        Document Charge_Users_Doc = dBuilder.newDocument();
+        //
+        //Crea el elemento principal del XML
+        Element operation = Charge_Users_Doc.createElement("OperationCode");
+        Charge_Users_Doc.appendChild(operation);
+        //
+        //Le anade un atributo al operation code(3-> Song sending to server)//
+        Attr attr = Charge_Users_Doc.createAttribute("ID");
+        attr.setValue("8");
         operation.setAttributeNode(attr);
 
         //Manda el XML con la informacion de registro al servidor //
