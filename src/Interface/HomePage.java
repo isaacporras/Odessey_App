@@ -48,6 +48,8 @@ public class HomePage {
 
     public static String playlist_selected = "";
 
+    public static int restriccion;
+
     HomePage homePage = this;
 
     @FXML
@@ -217,14 +219,25 @@ public class HomePage {
         PlayButton.setLayoutY(302);
 
         PlayButton.setOnAction(e->{
+            OdesseyClient.paused = false;
 //            String xml = makeXML_for_Reproduction(item.getParent().getValue(),item.getValue(), "0");
-            OdesseyClient.Play_Song(item.getParent().getValue(), item.getValue(), "0");
-
+            if(restriccion==0) {
+                OdesseyClient.Play_Song(item.getParent().getValue(), item.getValue(), "0");
+                restriccion++;
+            }else{
+                OdesseyClient.paused = false;
+            }
         });
 
         Button PauseButton = new Button("Pause");
         PauseButton.setLayoutX(438);
         PauseButton.setLayoutY(302);
+
+        PauseButton.setOnAction(e->{
+            //System.out.println("SE ESTA DANDO PAUSA PERO NO HACE NADA MAS QUE ESCRIBIR");
+            OdesseyClient.paused = true;
+            //OdesseyClient.Pause_Song(item.getParent().getValue(), item.getValue(),String.valueOf(OdesseyClient.counter));
+        });
 
 
         Slider Song_Slider = new Slider();

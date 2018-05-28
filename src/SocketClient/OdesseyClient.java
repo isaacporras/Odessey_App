@@ -41,6 +41,8 @@ import java.nio.file.Files;
  * Clase que se encarga de la coneccion con servidor
  */
 public class OdesseyClient  implements Runnable {
+    public static int counter = 0;
+    public static boolean paused = false;
     public static Socket Clientsocket;
     static DataInput dataInput;
     static DataOutputStream dataOutputStream;
@@ -341,6 +343,11 @@ public class OdesseyClient  implements Runnable {
 
             public void run() {
                 try {
+
+                    while(paused == true){
+                        Thread.sleep(1000);
+                        //System.out.println("Se detuvo el thread por al menos 8 segundos");
+                    }
 
                     /**
                      * Hay que definir la lectura del XML para la reproducción de los bytes. Finalmente, los chunks
