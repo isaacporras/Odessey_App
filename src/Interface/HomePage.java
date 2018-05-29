@@ -2,6 +2,8 @@ package Interface;
 
 import SocketClient.OdesseyClient;
 import com.sun.tools.internal.xjc.reader.xmlschema.bindinfo.BIConversion;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -258,6 +260,12 @@ public class HomePage {
         Song_Slider.setLayoutX(301);
         Song_Slider.setLayoutY(353);
         Song_Slider.setPrefSize(274,16);
+        Song_Slider.valueProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+
+            }
+        });
 
         Pane Reproduccion_AnchorPane = new Pane();
 

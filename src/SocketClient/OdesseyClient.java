@@ -392,6 +392,12 @@ public class OdesseyClient  implements Runnable {
         return false;
     }
 
+    /**
+     * Reproduce la musica
+     * @param playlist
+     * @param song
+     * @param chunk
+     */
     public static void Play_Song(String playlist, String song, String chunk){
         //Manda el XML con el nombre de la cancion a reproducir al servidor //
 

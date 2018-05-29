@@ -52,5 +52,6 @@
       <Button fx:id="LogOut_Button" layoutY="1.0" mnemonicParsing="false" onAction="#LogOut" prefHeight="27.0" prefWidth="237.0" text="LogOut" />
       <Button layoutX="178.0" layoutY="28.0" mnemonicParsing="false" text="Search" />
       <TextField layoutX="2.0" layoutY="28.0" prefHeight="27.0" prefWidth="179.0" />
+      <TreeView layoutY="55.0" prefHeight="224.0" prefWidth="237.0" />
    </children>
 </AnchorPane>
