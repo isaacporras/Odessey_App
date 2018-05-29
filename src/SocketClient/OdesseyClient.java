@@ -364,7 +364,7 @@ public class OdesseyClient  implements Runnable {
                     System.out.println(bytes);
                     MP3 mp3 = new MP3(bytes);
                     mp3.play();
-                    TimeUnit.SECONDS.sleep(6);
+                    TimeUnit.SECONDS.sleep(1);
 
                     counter = counter + 1 ;
 
