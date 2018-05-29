@@ -17,8 +17,9 @@ import java.io.IOException;
 
 public class LogInController {
 
-    @FXML
-    private Button Skipbutton;
+    public static String username_logged;
+
+
     @FXML
     private PasswordField PassWord_TextField;
     @FXML
@@ -35,24 +36,14 @@ public class LogInController {
         OdesseyClient.chargeUsers();
     }
 
-    @FXML
-    void Skipbutton(ActionEvent event) {
-        Parent home_page = null;
-        try {
-            home_page = FXMLLoader.load(getClass().getResource("HomePage.fxml"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        Scene home_page_scene = new Scene(home_page);
-        Stage app_stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        app_stage.hide();
-        app_stage.setScene(home_page_scene);
-        app_stage.show();
-    }
+
     @FXML
     void LogInButton(ActionEvent event) throws IOException{
         System.out.println("SE CLICKEO");
         if(OdesseyClient.LogIn_Usuario(UserName_TextField.getText(),PassWord_TextField.getText())){
+
+
+            username_logged = UserName_TextField.getText();
             Parent home_page = FXMLLoader.load(getClass().getResource("HomePage.fxml"));
             Scene home_page_scene = new Scene(home_page);
             Stage app_stage = (Stage)((Node)event.getSource()).getScene().getWindow();

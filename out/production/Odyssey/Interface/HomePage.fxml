@@ -14,9 +14,25 @@
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                <children>
-                  <Label layoutX="30.0" layoutY="26.0" text="Usuario">
+                  <Label layoutX="30.0" layoutY="26.0" text="Nombre:">
                      <font>
                         <Font size="39.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="Name_Area" layoutX="202.0" layoutY="25.0" text="name">
+                     <font>
+                        <Font size="41.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="30.0" layoutY="88.0" />
+                  <Label layoutX="30.0" layoutY="80.0" text="User Name:">
+                     <font>
+                        <Font size="19.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="UserName_Area" layoutX="151.0" layoutY="80.0" text="User_Name">
+                     <font>
+                        <Font size="19.0" />
                      </font>
                   </Label>
                </children></AnchorPane>

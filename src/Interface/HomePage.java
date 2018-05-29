@@ -1,6 +1,7 @@
 package Interface;
 
 import SocketClient.OdesseyClient;
+import com.sun.tools.internal.xjc.reader.xmlschema.bindinfo.BIConversion;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -52,6 +53,14 @@ public class HomePage {
 
     HomePage homePage = this;
 
+    public String name = "";
+
+    @FXML
+    private Label UserName_Area;
+
+    @FXML
+    private Label Name_Area;
+
     @FXML
     private TextField PlayList_Name_TextField;
 
@@ -87,6 +96,11 @@ public class HomePage {
             AddSongToTreeView(SongNames);
         }
         OdesseyClient.chargeSongsName();
+
+        Name_Area.setText(OdesseyClient.getUserInfo(LogInController.username_logged));
+
+        UserName_Area.setText(LogInController.username_logged);
+
 
     }
     @FXML

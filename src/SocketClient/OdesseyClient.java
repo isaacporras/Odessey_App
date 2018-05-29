@@ -87,6 +87,78 @@ public class OdesseyClient  implements Runnable {
         }
 
     }
+    public static String getUserInfo(String username){
+
+        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder dBuilder = null;
+        //
+        try {
+            dBuilder = dbFactory.newDocumentBuilder();
+        } catch (ParserConfigurationException e) {
+            System.out.println("NO SE CREO EL DOCUMENTO");
+            e.printStackTrace();
+        }
+        //Instancia el documento
+        Document UserXML_DOC = dBuilder.newDocument();
+        //
+
+        //Crea el elemento principal del XML
+        Element operation = UserXML_DOC.createElement("OperationCode");
+        UserXML_DOC.appendChild(operation);
+        //
+        //Le anade un atributo al operation code(1-> registrarse)//
+        Attr attr = UserXML_DOC.createAttribute("ID");
+        attr.setValue("10");
+        operation.setAttributeNode(attr);
+
+        //Anade el username al xml//
+        Element usernameXML = UserXML_DOC.createElement("UserName");
+        operation.appendChild(usernameXML);
+        usernameXML.appendChild(UserXML_DOC.createTextNode(username));
+        //Manda el XML con la informacion de registro al servidor //
+        try {
+            DataOutputStream outToServer = new DataOutputStream(Clientsocket.getOutputStream());
+            outToServer.writeBytes(convertDocumentToString(UserXML_DOC) + '\n');
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        //Termina de mandarlo al servidor
+
+        //Espera la respuesta de las playlist //
+
+
+
+
+
+        boolean allPlaylistCharged = true;
+        String name  =  "";
+
+        while (allPlaylistCharged) {
+
+            try {
+                //Inicia el socket //
+
+                //Espera la respuesta del servidor a ver si el usuario ya esta registrado //
+
+                String modifiedSentence = null;
+                allPlaylistCharged = true;
+
+                    BufferedReader inFromServer = new BufferedReader(new InputStreamReader(Clientsocket.getInputStream()));
+                    modifiedSentence = inFromServer.readLine();
+                    System.out.println("UserName: " + modifiedSentence);
+                    name = modifiedSentence;
+                    return name;
+
+
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+        return name;
+    }
 
     public void startClient() throws IOException {
         Clientsocket = new Socket("localhost", 1421);
