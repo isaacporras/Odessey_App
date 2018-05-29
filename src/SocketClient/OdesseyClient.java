@@ -417,7 +417,7 @@ public class OdesseyClient  implements Runnable {
                 try {
 
                     while(paused == true){
-                        Thread.sleep(1000);
+                        Thread.sleep(100);
                         //System.out.println("Se detuvo el thread por al menos 8 segundos");
                     }
 
