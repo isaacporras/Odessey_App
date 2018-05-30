@@ -1,7 +1,7 @@
 package Interface;
 
 import SocketClient.OdesseyClient;
-import com.sun.tools.internal.xjc.reader.xmlschema.bindinfo.BIConversion;
+
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
@@ -80,11 +80,59 @@ public class HomePage {
 
     private TreeItem<String> root;
 
+    private TreeItem<String> search_root;
+
+    @FXML
+    private TreeView<String> Friends_List;
+
+    @FXML
+    private TreeView<String> SearchListView;
+    @FXML
+    private TextField Search_TextField;
+
+
+    @FXML
+    void SearchButton_Clicked(ActionEvent event) {
+        if(!Search_TextField.getText().equals("")) {
+            SearchListView.getRoot().getChildren().clear();
+            List<String> results = OdesseyClient.search(Search_TextField.getText());
+
+            for (int i=0;i < results.size();i++)
+            {
+                System.out.println("Un resultado es: "+results.get(i));
+
+            }
+            System.out.println("Se terminaron los resultados lol");
+
+            for (int i=0;i < results.size();i++)
+            {
+                if(!results.get(i).equals("finished")){
+                    TreeItem<String> item = new TreeItem<>(results.get(i));
+                    SearchListView.getRoot().getChildren().addAll(item);
+                }
+
+
+            }
+        }
+        else{
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Error!");
+
+
+            alert.setContentText("Digite algo en el campo de buscar");
+
+            alert.showAndWait();
+        }
+    }
+
     @FXML
     private void initialize() {
         root = new TreeItem<String> ("Root");
+        search_root = new TreeItem<String>("SearchRoot");
         System.out.println("Root: "+ root);
         Playlist_TreeView.setRoot(root);
+        SearchListView.setRoot(search_root);
+        SearchListView.setShowRoot(false);
         Playlist_TreeView.setShowRoot(false);
         root.setExpanded(true);
         List<String> playlistNames = OdesseyClient.getPlaylist();
@@ -99,12 +147,13 @@ public class HomePage {
         }
         OdesseyClient.chargeSongsName();
 
-        Name_Area.setText(OdesseyClient.getUserInfo(LogInController.username_logged));
+
+//        Name_Area.setText(OdesseyClient.getUserInfo(LogInController.username_logged));
 
         UserName_Area.setText(LogInController.username_logged);
 
-
     }
+
     @FXML
     void Add_Playlist_Button_Clicked(ActionEvent event) {
         if(!PlayList_Name_TextField.getText().equals("")){

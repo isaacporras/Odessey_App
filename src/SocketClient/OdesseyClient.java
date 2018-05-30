@@ -87,6 +87,75 @@ public class OdesseyClient  implements Runnable {
         }
 
     }
+    public static List<String> search(String searched){
+
+        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder dBuilder = null;
+        //
+        try {
+            dBuilder = dbFactory.newDocumentBuilder();
+        } catch (ParserConfigurationException e) {
+            System.out.println("NO SE CREO EL DOCUMENTO");
+            e.printStackTrace();
+        }
+        //Instancia el documento
+        Document SearchedXML_DOC = dBuilder.newDocument();
+        //
+
+        //Crea el elemento principal del XML
+        Element operation = SearchedXML_DOC.createElement("OperationCode");
+        SearchedXML_DOC.appendChild(operation);
+        //
+        //Le anade un atributo al operation code(6-> get songs names)//
+        Attr attr = SearchedXML_DOC.createAttribute("ID");
+        attr.setValue("11");
+        operation.setAttributeNode(attr);
+        //Manda el XML con la informacion de registro al servidor //
+        Element usernameXML =  SearchedXML_DOC.createElement("Searched");
+        operation.appendChild(usernameXML);
+        usernameXML.appendChild( SearchedXML_DOC.createTextNode(searched));
+        try {
+            DataOutputStream outToServer = new DataOutputStream(Clientsocket.getOutputStream());
+            outToServer.writeBytes(convertDocumentToString(SearchedXML_DOC) + '\n');
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        List<String> Results = new ArrayList<String>();
+        boolean finished = true;
+        System.out.println("SE EMPIEZA LOS RESULTADOS DE LA BUSQUEDA EN PROFUNDIDAD");
+        boolean allPlaylistCharged = true;
+
+        while (allPlaylistCharged) {
+
+            try {
+                //Inicia el socket //
+
+                //Espera la respuesta del servidor a ver si el usuario ya esta registrado //
+
+                String modifiedSentence = null;
+                allPlaylistCharged = true;
+                while (true) {
+                    BufferedReader inFromServer = new BufferedReader(new InputStreamReader(Clientsocket.getInputStream()));
+                    modifiedSentence = inFromServer.readLine();
+                    System.out.println("Search result: " + modifiedSentence);
+                    if (!modifiedSentence.equals("finished") && !modifiedSentence.equals("..")) {
+                        Results.add(modifiedSentence);
+
+
+                    } else if (modifiedSentence.equals("finished") || modifiedSentence.equals("No se encontraron resultados")) {
+                        Results.add(modifiedSentence);
+                        System.out.println("Ya no hay mas resultados");
+                        return Results;
+                    }
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return Results;
+    }
     public static String getUserInfo(String username){
 
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
