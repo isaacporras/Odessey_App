@@ -205,6 +205,14 @@ public class HomePage {
                                 displayReproduccionWindow(item);
 
                             }
+                        }).build(),
+                        MenuItemBuilder.create().text("Eliminar").onAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent arg0) {
+                                OdesseyClient.eliminar_cancion(item.getValue(),item.getParent().getValue());
+                                item.getParent().getChildren().remove(item);
+
+                            }
                         }).build()).build();
                 Playlist_TreeView.setContextMenu(rootContextMenu);
             }

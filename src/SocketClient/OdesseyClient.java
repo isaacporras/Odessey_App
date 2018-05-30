@@ -156,6 +156,50 @@ public class OdesseyClient  implements Runnable {
         }
         return Results;
     }
+    public static void eliminar_cancion(String song, String playlist){
+        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder dBuilder = null;
+
+        try {
+            dBuilder = dbFactory.newDocumentBuilder();
+        } catch (ParserConfigurationException e) {
+            System.out.println("NO SE CREO EL DOCUMENTO");
+            e.printStackTrace();
+        }
+        //Instancia el documento
+        Document SongXML = dBuilder.newDocument();
+        //
+        //Crea el elemento principal del XML
+        Element operation = SongXML.createElement("OperationCode");
+        SongXML.appendChild(operation);
+        //
+        //Le anade un atributo al operation code(1-> registrarse)//
+        Attr attr = SongXML.createAttribute("ID");
+        attr.setValue("12");
+        operation.setAttributeNode(attr);
+        //Anade el playlistname al xml//
+        Element SongNameElement = SongXML.createElement("Song");
+        SongNameElement.appendChild(SongXML.createTextNode(song));
+        operation.appendChild(SongNameElement);
+
+        Element PlaylistNameElement = SongXML.createElement("Playlist");
+        PlaylistNameElement.appendChild(SongXML.createTextNode(playlist));
+        operation.appendChild(PlaylistNameElement);
+
+
+
+        //Manda el XML con la informacion de registro al servidor //
+        try {
+            DataOutputStream outToServer = new DataOutputStream(Clientsocket.getOutputStream());
+            outToServer.writeBytes(convertDocumentToString(SongXML) + '\n');
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        //Termina de mandarlo al servidor
+
+
+    }
     public static String getUserInfo(String username){
 
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
