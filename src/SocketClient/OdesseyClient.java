@@ -87,6 +87,72 @@ public class OdesseyClient  implements Runnable {
         }
 
     }
+    public static List<String> getUsersList(){
+
+        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder dBuilder = null;
+        //
+        try {
+            dBuilder = dbFactory.newDocumentBuilder();
+        } catch (ParserConfigurationException e) {
+            System.out.println("NO SE CREO EL DOCUMENTO");
+            e.printStackTrace();
+        }
+        //Instancia el documento
+        Document UsersXML_DOC = dBuilder.newDocument();
+        //
+
+        //Crea el elemento principal del XML
+        Element operation = UsersXML_DOC.createElement("OperationCode");
+        UsersXML_DOC.appendChild(operation);
+        //
+        //Le anade un atributo al operation code(6-> get songs names)//
+        Attr attr = UsersXML_DOC.createAttribute("ID");
+        attr.setValue("22");
+        operation.setAttributeNode(attr);
+
+        try {
+            DataOutputStream outToServer = new DataOutputStream(Clientsocket.getOutputStream());
+            outToServer.writeBytes(convertDocumentToString(UsersXML_DOC) + '\n');
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        List<String> Results = new ArrayList<String>();
+        boolean finished = true;
+        System.out.println("SE EMPIEZA LOS RESULTADOS DE LA BUSQUEDA EN PROFUNDIDAD");
+        boolean allPlaylistCharged = true;
+
+        while (allPlaylistCharged) {
+
+            try {
+                //Inicia el socket //
+
+                //Espera la respuesta del servidor a ver si el usuario ya esta registrado //
+
+                String modifiedSentence = null;
+                allPlaylistCharged = true;
+                while (true) {
+                    BufferedReader inFromServer = new BufferedReader(new InputStreamReader(Clientsocket.getInputStream()));
+                    modifiedSentence = inFromServer.readLine();
+                    System.out.println("User result: " + modifiedSentence);
+                    if (!modifiedSentence.equals("finished") && !modifiedSentence.equals("..")) {
+                        Results.add(modifiedSentence);
+
+
+                    } else if (modifiedSentence.equals("finished")) {
+                        Results.add(modifiedSentence);
+                        System.out.println("Ya no hay mas usuarios");
+                        return Results;
+                    }
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return Results;
+    }
     public static List<String> search(String searched){
 
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();

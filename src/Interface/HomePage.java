@@ -57,6 +57,9 @@ public class HomePage {
     public String name = "";
 
     @FXML
+    private TreeView<String> Non_Friend_Tree;
+
+    @FXML
     private Label UserName_Area;
 
     @FXML
@@ -92,6 +95,9 @@ public class HomePage {
     private Slider Song_Slider;
 
     private Boolean pause = true;
+
+    public TreeItem root3 ;
+    public TreeItem root4;
 
 
     @FXML
@@ -130,6 +136,12 @@ public class HomePage {
 
     @FXML
     private void initialize() {
+        root4 = new TreeItem<String> ("Root4");
+        Friends_List.setRoot(root4);
+        Friends_List.setShowRoot(false);
+        root3 = new TreeItem<String> ("Root3");
+        Non_Friend_Tree.setRoot(root3);
+        Non_Friend_Tree.setShowRoot(false);
         root = new TreeItem<String> ("Root");
         search_root = new TreeItem<String>("SearchRoot");
         System.out.println("Root: "+ root);
@@ -155,6 +167,18 @@ public class HomePage {
 
         UserName_Area.setText(LogInController.username_logged);
 
+        List<String> UsersList = OdesseyClient.getUsersList();
+
+        for (int i=0;i < UsersList.size();i++)
+        {
+            if(!UsersList.get(i).equals("finished")){
+                TreeItem<String> item = new TreeItem<>(UsersList.get(i).substring(0,UsersList.get(i).length()-5));
+                Non_Friend_Tree.getRoot().getChildren().addAll(item);
+            }
+
+        }
+
+
     }
 
     @FXML
@@ -175,6 +199,28 @@ public class HomePage {
         }
 
 
+    }
+    @FXML
+    void Non_Friend_Clicked(MouseEvent mouseEvent) {
+        TreeItem<String> item = Non_Friend_Tree.getSelectionModel().getSelectedItem();
+
+        if (item != null) {
+            if(item.getParent() == root3) {
+                ContextMenu rootContextMenu = ContextMenuBuilder.create().items(
+
+
+                        MenuItemBuilder.create().text("Add Friend").onAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent arg0) {
+                                Non_Friend_Tree.getRoot().getChildren().remove(item);
+                                Friends_List.getRoot().getChildren().addAll(item);
+
+
+                            }
+                        }).build()).build();
+                Non_Friend_Tree.setContextMenu(rootContextMenu);
+            }
+        }
     }
 
 
@@ -574,7 +620,6 @@ public class HomePage {
                         Thread.sleep(1000);
                         //System.out.println("Se detuvo el thread por al menos 8 segundos");
                     }
-
                     Song_Slider.setValue(Song_Slider.getValue()+10);
                     TimeUnit.SECONDS.sleep(1);
                     run();
