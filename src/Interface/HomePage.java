@@ -36,14 +36,13 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import java.io.File;
-import java.io.IOException;
-import java.io.StringWriter;
+import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 public class HomePage {
 
@@ -89,6 +88,10 @@ public class HomePage {
     private TreeView<String> SearchListView;
     @FXML
     private TextField Search_TextField;
+
+    private Slider Song_Slider;
+
+    private Boolean pause = true;
 
 
     @FXML
@@ -402,14 +405,19 @@ public class HomePage {
         PlayButton.setLayoutX(367);
         PlayButton.setLayoutY(302);
 
+        Song_Slider = new Slider();
+
         PlayButton.setOnAction(e->{
             OdesseyClient.paused = false;
+            pause = false;
 //            String xml = makeXML_for_Reproduction(item.getParent().getValue(),item.getValue(), "0");
             if(restriccion==0) {
+                //Song_Slider.setValue(Song_Slider.getValue()+10);
                 OdesseyClient.Play_Song(item.getParent().getValue(), item.getValue(), "0");
                 restriccion++;
             }else{
                 OdesseyClient.paused = false;
+                pause = false;
             }
         });
 
@@ -420,20 +428,78 @@ public class HomePage {
         PauseButton.setOnAction(e->{
             //System.out.println("SE ESTA DANDO PAUSA PERO NO HACE NADA MAS QUE ESCRIBIR");
             OdesseyClient.paused = true;
+            pause = true;
             //OdesseyClient.Pause_Song(item.getParent().getValue(), item.getValue(),String.valueOf(OdesseyClient.counter));
         });
 
+        /*new Thread() {
+            public void run() {
+                try {
+                    while(pause == true){
+                        Thread.sleep(1000);
+                        //System.out.println("Se detuvo el thread por al menos 8 segundos");
+                    }
 
-        Slider Song_Slider = new Slider();
+                    Song_Slider.setValue(Song_Slider.getValue()+10);
+                    TimeUnit.SECONDS.sleep(1);
+                    run();
+                } catch (Exception e) {
+                    System.out.println(e);
+                }
+            }
+        }.start();*/
+
+
+        //Slider Song_Slider = new Slider();
         Song_Slider.setLayoutX(301);
         Song_Slider.setLayoutY(353);
         Song_Slider.setPrefSize(274,16);
-        Song_Slider.valueProperty().addListener(new ChangeListener<Number>() {
+        /*Song_Slider.valueProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-
+            double value = Song_Slider.getValue();
+            System.out.println("El valor del Slider es = " + value);
             }
-        });
+        });*/
+
+        int totalSeconds = 0;
+
+        try {
+            TimeUnit.SECONDS.sleep(1);
+            String xml = OdesseyClient.makeXML_for_Reproduction(item.getParent().getValue(), item.getValue(), "t");
+            DataOutputStream outToServer = new DataOutputStream(OdesseyClient.Clientsocket.getOutputStream());
+            outToServer.writeBytes(xml + '\n');
+
+            String time;
+            BufferedReader inFromServer = new BufferedReader(new InputStreamReader(OdesseyClient.Clientsocket.getInputStream()));
+            time = inFromServer.readLine();
+            String minutes = time.substring(0,1);
+            String seconds = time.substring(1);
+            System.out.println("Tiempo de la canción: " + minutes + " minutos con " + seconds + " segundos.");
+            totalSeconds = Integer.parseInt(seconds) + Integer.parseInt(minutes)*60;
+        }
+        catch (Exception e){
+            System.out.println(e);
+        }
+
+        double timeRatio = 100.00 / (double) totalSeconds;
+
+        new Thread() {
+            public void run() {
+                try {
+                    while(pause == true){
+                        Thread.sleep(1000);
+                        //System.out.println("Se detuvo el thread por al menos 8 segundos");
+                    }
+
+                    Song_Slider.setValue(Song_Slider.getValue()+timeRatio);
+                    TimeUnit.SECONDS.sleep(1);
+                    run();
+                } catch (Exception e) {
+                    System.out.println(e);
+                }
+            }
+        }.start();
 
         Pane Reproduccion_AnchorPane = new Pane();
 
