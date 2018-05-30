@@ -213,10 +213,121 @@ public class HomePage {
                                 item.getParent().getChildren().remove(item);
 
                             }
+                        }).build(),
+                        MenuItemBuilder.create().text("Modificar Data").onAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent arg0) {
+                                displayModifyMetadata(item);
+
+                            }
                         }).build()).build();
                 Playlist_TreeView.setContextMenu(rootContextMenu);
             }
         }
+    }
+    public void displayModifyMetadata(TreeItem<String> item){
+
+
+        Stage ventanaUpload = new Stage();
+        ventanaUpload.initModality(Modality.APPLICATION_MODAL);
+
+        ventanaUpload.initModality(Modality.APPLICATION_MODAL);
+        ventanaUpload.setTitle("Modificando Data");
+
+        Label SongInfo_Label = new Label("Song Information:");
+        SongInfo_Label.setLayoutX(14);
+        SongInfo_Label.setLayoutY(14);
+        SongInfo_Label.setFont(new Font(26));
+
+        Label Nombre_Label = new Label(item.getValue());
+        Nombre_Label.setLayoutX(100);
+        Nombre_Label.setLayoutY(122);
+        Nombre_Label.setFont(new Font(26));
+
+
+        Label Genero_Label = new Label("Genero:");
+        Genero_Label.setLayoutX(16);
+        Genero_Label.setLayoutY(162);
+
+        TextField Genero_TextField = new TextField();
+        Genero_TextField.setLayoutX(93);
+        Genero_TextField.setLayoutY(157);
+
+        Label Artista_Label = new Label("Artista:");
+        Artista_Label.setLayoutX(16);
+        Artista_Label.setLayoutY(207);
+
+        TextField Artista_TextField = new TextField();
+        Artista_TextField.setLayoutX(93);
+        Artista_TextField.setLayoutY(202);
+
+        Label Album_Label = new Label("Album:");
+        Album_Label.setLayoutX(16);
+        Album_Label.setLayoutY(256);
+
+        TextField Album_TextField = new TextField();
+        Album_TextField.setLayoutX(93);
+        Album_TextField.setLayoutY(251);
+
+        Label Year_Label = new Label("Año:");
+        Year_Label.setLayoutX(16);
+        Year_Label.setLayoutY(305);
+
+        TextField Year_TextField = new TextField();
+        Year_TextField.setLayoutX(93);
+        Year_TextField.setLayoutY(301);
+
+        Label Letra_Label = new Label("Letra:");
+        Letra_Label.setLayoutX(16);
+        Letra_Label.setLayoutY(345);
+
+        TextArea Letra_TextField = new TextArea();
+        Letra_TextField.setLayoutX(77);
+        Letra_TextField.setLayoutY(362);
+        Letra_TextField.setPrefSize(348, 200);
+
+        Button Modify_Button = new Button("Modify Metadata");
+        Modify_Button.setLayoutX(328);
+        Modify_Button.setLayoutY(577);
+
+        Modify_Button.setOnAction(i -> {
+
+            if (!Genero_TextField.getText().equals("") && !Artista_TextField.getText().equals("") && !Album_TextField.getText().equals("") &&
+                    !Year_TextField.getText().equals("") && !Letra_TextField.getText().equals("") ) {
+                Modify_Button.setDisable(true);
+
+                String xml = Generate_Song_XML("", item.getValue(), Genero_TextField.getText(),
+                        Artista_TextField.getText(), Album_TextField.getText(), Year_TextField.getText(), Letra_TextField.getText(), item.getParent().getValue(),"20");
+
+
+                OdesseyClient.Send_Song_to_Server(xml);
+
+                ventanaUpload.close();
+
+
+
+
+
+            } else {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Error!");
+
+
+                alert.setContentText("Por favor rellene todos los campos solicitados");
+
+                alert.showAndWait();
+            }
+        });
+
+        AnchorPane UploadAnchorPane = new AnchorPane();
+
+        UploadAnchorPane.getChildren().addAll(SongInfo_Label, Nombre_Label,
+                Genero_Label, Genero_TextField, Artista_Label, Artista_TextField, Album_Label, Album_TextField, Year_Label, Year_TextField,
+                Letra_Label, Letra_TextField, Modify_Button);
+        Scene UploadSong_Scene = new Scene(UploadAnchorPane, 441, 628);
+        ventanaUpload.setScene(UploadSong_Scene);
+        ventanaUpload.showAndWait();
+
     }
     public void displayReproduccionWindow(TreeItem<String> item){
 
@@ -530,7 +641,7 @@ public class HomePage {
                 UploadSong_Button.setDisable(true);
 
                 String xml = Generate_Song_XML(Path_TextField.getText(), Nombre_TextField.getText(), Genero_TextField.getText(),
-                        Artista_TextField.getText(), Album_TextField.getText(), Year_TextField.getText(), Letra_TextField.getText(), item.getValue());
+                        Artista_TextField.getText(), Album_TextField.getText(), Year_TextField.getText(), Letra_TextField.getText(), item.getValue(),"3");
 
 
                 OdesseyClient.Send_Song_to_Server(xml);
@@ -598,7 +709,7 @@ public class HomePage {
         return null;
     }
     public String Generate_Song_XML(String path,String nombre,String genero,String artista, String album,String year,
-                                    String lyrics,String playlist){
+                                    String lyrics,String playlist,String OperationCode){
         //Crea el documento XML//
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder dBuilder = null;
@@ -618,7 +729,7 @@ public class HomePage {
         //
         //Le anade un atributo al operation code(3-> Song sending to server)//
         Attr attr = Registrarse_doc.createAttribute("ID");
-        attr.setValue("3");
+        attr.setValue(OperationCode);
         operation.setAttributeNode(attr);
 
         //Anade la cancion en bytes al xml//
@@ -629,7 +740,10 @@ public class HomePage {
         Element SongBytes = Registrarse_doc.createElement("CancionBytes");
         operation.appendChild(SongBytes);
         //*************************** ACA SE DEBE METER LOS BYTES DE LA CANCION *******************************//
-        SongBytes.appendChild(Registrarse_doc.createTextNode(Songtobase64(path)));
+        if(OperationCode.equals("3")){
+            SongBytes.appendChild(Registrarse_doc.createTextNode(Songtobase64(path)));
+        }
+
         //Anade el Nombre de la cancion al xml//
         Element Nombre = Registrarse_doc.createElement("Nombre");
         operation.appendChild(Nombre);
