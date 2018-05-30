@@ -690,6 +690,9 @@ public class HomePage {
         Scene Reproduccion_Scene = new Scene(Reproduccion_AnchorPane, 575, 406);
         Ventana_Reproduccion.setScene(Reproduccion_Scene);
         Ventana_Reproduccion.showAndWait();
+        if (Ventana_Reproduccion.isShowing()!= true){
+            restriccion = 0;
+        }
 
 
     }

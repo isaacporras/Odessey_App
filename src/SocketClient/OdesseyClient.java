@@ -680,6 +680,11 @@ public class OdesseyClient  implements Runnable {
                     DataOutputStream outToServer = new DataOutputStream(Clientsocket.getOutputStream());
                     outToServer.writeBytes(newXml + '\n');
 
+                    if(mp3.isfinish()){
+                        System.out.println("Se terminó la cancion");
+                        Thread.currentThread().destroy();
+                    }
+
                     run();
 
                 } catch (Exception e) {
