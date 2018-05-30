@@ -223,10 +223,130 @@ public class HomePage {
                                 displayModifyMetadata(item);
 
                             }
+                        }).build(),
+                        MenuItemBuilder.create().text("Calificar").onAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent arg0) {
+                                displayStarsWindow(item);
+
+                            }
                         }).build()).build();
                 Playlist_TreeView.setContextMenu(rootContextMenu);
             }
         }
+    }
+    public void displayStarsWindow(TreeItem<String> item){
+        Stage StarsWindow = new Stage();
+        StarsWindow.initModality(Modality.APPLICATION_MODAL);
+
+        StarsWindow.initModality(Modality.APPLICATION_MODAL);
+        StarsWindow.setTitle("Setting Stars");
+
+        RadioButton OneStar = new RadioButton("1");
+
+        OneStar.setLayoutX(50);
+        OneStar.setLayoutY(50);
+
+        OneStar.setOnAction(e->{
+
+        });
+
+        RadioButton TwoStar = new RadioButton("2");
+
+        TwoStar.setLayoutX(100);
+        TwoStar.setLayoutY(50);
+
+        RadioButton ThreeStar = new RadioButton("3");
+
+        ThreeStar.setLayoutX(150);
+        ThreeStar.setLayoutY(50);
+
+        RadioButton FourStar = new RadioButton("4");
+
+        FourStar.setLayoutX(200);
+        FourStar.setLayoutY(50);
+
+        RadioButton FiveStar = new RadioButton("5");
+
+        FiveStar.setLayoutX(250);
+        FiveStar.setLayoutY(50);
+
+        OneStar.setOnAction(e->{
+            TwoStar.setSelected(false);
+            ThreeStar.setSelected(false);
+            FourStar.setSelected(false);
+            FiveStar.setSelected(false);
+
+        });
+        TwoStar.setOnAction(e->{
+            OneStar.setSelected(false);
+            ThreeStar.setSelected(false);
+            FourStar.setSelected(false);
+            FiveStar.setSelected(false);
+
+        });
+        ThreeStar.setOnAction(e->{
+            OneStar.setSelected(false);
+            TwoStar.setSelected(false);
+            FourStar.setSelected(false);
+            FiveStar.setSelected(false);
+
+        });
+        FourStar.setOnAction(e->{
+            OneStar.setSelected(false);
+            TwoStar.setSelected(false);
+            ThreeStar.setSelected(false);
+            FiveStar.setSelected(false);
+
+        });
+        FiveStar.setOnAction(e->{
+            OneStar.setSelected(false);
+            TwoStar.setSelected(false);
+            FourStar.setSelected(false);
+            ThreeStar.setSelected(false);
+
+        });
+
+        Button ok = new Button("Ok");
+        ok.setLayoutX(300);
+        ok.setLayoutY(80);
+
+        ok.setOnAction(e->{
+            if(OneStar.isSelected() || TwoStar.isSelected() || ThreeStar.isSelected() || FourStar.isSelected() || FiveStar.isSelected()){
+                if(OneStar.isSelected()){
+                    OdesseyClient.AddStars_cancion(item.getValue(),"1");
+                    StarsWindow.close();
+                }
+                else if(TwoStar.isSelected()){
+                    OdesseyClient.AddStars_cancion(item.getValue(),"2");
+                    StarsWindow.close();
+                }
+                else if(ThreeStar.isSelected()){
+                    OdesseyClient.AddStars_cancion(item.getValue(),"3");
+                    StarsWindow.close();
+                }
+                else if(FourStar.isSelected()){
+                    OdesseyClient.AddStars_cancion(item.getValue(),"4");
+                    StarsWindow.close();
+                }
+                else if(FiveStar.isSelected()){
+                    OdesseyClient.AddStars_cancion(item.getValue(),"5");
+                    StarsWindow.close();
+                }
+
+            }
+
+        });
+
+        AnchorPane StarsAnchorPane = new AnchorPane();
+        StarsAnchorPane.getChildren().addAll(OneStar,TwoStar, ThreeStar, FourStar,FiveStar, ok);
+
+        Scene UploadSong_Scene = new Scene(StarsAnchorPane, 350, 130);
+        StarsWindow.setScene(UploadSong_Scene);
+        StarsWindow.showAndWait();
+
+
+
     }
     public void displayModifyMetadata(TreeItem<String> item){
 
@@ -351,10 +471,14 @@ public class HomePage {
         Nombre_Label.setLayoutY(22);
         Nombre_Label.setFont(new Font(31));
 
+
+
         Label Nombre_Label_text = new Label(metadata.get(0));
         Nombre_Label_text.setLayoutX(150);
         Nombre_Label_text.setLayoutY(22);
         Nombre_Label_text.setFont(new Font(31));
+
+
 
         Label Genero_Label = new Label("Genero:");
         Genero_Label.setLayoutX(14);
@@ -398,6 +522,17 @@ public class HomePage {
         Letra_TextField.setPrefSize(246, 175);
 
         Letra_TextField.setText(metadata.get(5));
+
+        Label Stars_Label = new Label("Stars:");
+        Stars_Label.setLayoutX(300);
+        Stars_Label.setLayoutY(55);
+        Stars_Label.setFont(new Font(31));
+
+        Label Stars_Label_text = new Label();
+        Stars_Label_text.setLayoutX(390);
+        Stars_Label_text.setLayoutY(90);
+        Stars_Label_text.setFont(new Font(15));
+        Stars_Label_text.setText(metadata.get(6));
 
         Letra_TextField.setEditable(false);
 
@@ -505,7 +640,7 @@ public class HomePage {
 
         Reproduccion_AnchorPane.getChildren().addAll(Nombre_Label,Nombre_Label_text,
                 Genero_Label,Genero_Label_text,  Artista_Label,Artista_Label_text, Album_Label,Album_Label_text,
-                Year_Label,Year_Label_text,
+                Year_Label,Year_Label_text,Stars_Label,Stars_Label_text,
                 Letra_Label, Letra_TextField, PauseButton, PlayButton, Song_Slider);
         Scene Reproduccion_Scene = new Scene(Reproduccion_AnchorPane, 575, 406);
         Ventana_Reproduccion.setScene(Reproduccion_Scene);
